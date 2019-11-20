@@ -27,15 +27,14 @@ class DatasetGenerator (Dataset):
         while line:
                 
             line = fileDescriptor.readline()
-            print(line[0])
-            print(line[0].split("/"))
-            tempPath = line[0].split("/")
-            line[0] = os.path.join(tempPath[0],tempPath[1])
             
             #--- if not empty
             if line:
           
                 lineItems = line.split()
+                
+                temp_path = lineItems[0].split("/")
+                lineItems[0] = os.path.join(temp_path[0],temp_path[1])
                 
                 imagePath = os.path.join(pathImageDirectory, lineItems[0])
                 imageLabel = lineItems[1:]
