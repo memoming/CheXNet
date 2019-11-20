@@ -96,6 +96,7 @@ class ChexnetTrainer ():
             timestampTime = time.strftime("%H%M%S")
             timestampDate = time.strftime("%d%m%Y")
             timestampSTART = timestampDate + '-' + timestampTime
+            print("epoch_",epochID,"TimeStamp :",timestampSTART)
                          
             ChexnetTrainer.epochTrain (model, dataLoaderTrain, optimizer, scheduler, trMaxEpoch, nnClassCount, loss)
             lossVal, losstensor = ChexnetTrainer.epochVal (model, dataLoaderVal, optimizer, scheduler, trMaxEpoch, nnClassCount, loss)
@@ -118,9 +119,9 @@ class ChexnetTrainer ():
     def epochTrain (model, dataLoader, optimizer, scheduler, epochMax, classCount, loss):
         
         model.train()
-        
+        print("Enter Epoch Train")
         for batchID, (input, target) in enumerate (dataLoader):
-                        
+            print("barchID", batchID)
             target = target.cuda()
                  
             varInput = torch.autograd.Variable(input)
