@@ -121,7 +121,7 @@ class ChexnetTrainer ():
         model.train()
         print("Enter Epoch Train")
         for batchID, (input, target) in enumerate (dataLoader):
-            print("barchID", batchID)
+            print("barchID", batchID,"/",len(dataLoader))
             target = target.cuda()
                  
             varInput = torch.autograd.Variable(input)
