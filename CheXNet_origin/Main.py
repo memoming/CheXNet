@@ -41,7 +41,7 @@ def runTrain():
     nnClassCount = 14
     
     #---- Training settings: batch size, maximum number of epochs
-    trBatchSize = 10 #16
+    trBatchSize = 32 #16
     trMaxEpoch = 80 #100
     
     #---- Parameters related to image transforms: size of the down-scaled image, cropped image
