@@ -49,6 +49,7 @@ class ChexnetTrainer ():
         elif nnArchitecture == 'DENSE-NET-201': model = DenseNet201(nnClassCount, nnIsTrained).cuda()
         
         model = torch.nn.DataParallel(model).cuda()
+        print("model init")
                 
         #-------------------- SETTINGS: DATA TRANSFORMS
         normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
@@ -59,6 +60,7 @@ class ChexnetTrainer ():
         transformList.append(transforms.ToTensor())
         transformList.append(normalize)      
         transformSequence=transforms.Compose(transformList)
+        print("DATA TRANSFORMS ... done")
 
         #-------------------- SETTINGS: DATASET BUILDERS
         datasetTrain = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTrain, transform=transformSequence)
@@ -66,13 +68,16 @@ class ChexnetTrainer ():
               
         dataLoaderTrain = DataLoader(dataset=datasetTrain, batch_size=trBatchSize, shuffle=True,  num_workers=24, pin_memory=True)
         dataLoaderVal = DataLoader(dataset=datasetVal, batch_size=trBatchSize, shuffle=False, num_workers=24, pin_memory=True)
+        print("DATASET BUILDERS ... done")
         
         #-------------------- SETTINGS: OPTIMIZER & SCHEDULER
         optimizer = optim.Adam (model.parameters(), lr=0.0001, betas=(0.9, 0.999), eps=1e-08, weight_decay=1e-5)
         scheduler = ReduceLROnPlateau(optimizer, factor = 0.1, patience = 5, mode = 'min')
+        print("OPTIMIZER & SCHEDULER ... set")
                 
         #-------------------- SETTINGS: LOSS
         loss = torch.nn.BCELoss(size_average = True)
+        print("LOSS FUNC ... set")
         
         #---- Load checkpoint 
         if checkpoint != None:
@@ -82,6 +87,7 @@ class ChexnetTrainer ():
 
         
         #---- TRAIN THE NETWORK
+        print("START TRAIN")
         
         lossMIN = 100000
         
