@@ -9,8 +9,8 @@ from ChexnetTrainer import ChexnetTrainer
 
 def main ():
     
-    runTest()
-    #runTrain()
+    # runTest()
+    runTrain()
   
 #--------------------------------------------------------------------------------   
 
