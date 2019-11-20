@@ -25,14 +25,14 @@ def runTrain():
     timestampLaunch = timestampDate + '-' + timestampTime
     
     #---- Path to the directory with images
-    pathDirData = './database'
+    pathDirData = 'database'
     
     #---- Paths to the files with training, validation and testing sets.
     #---- Each file should contains pairs [path to image, output vector]
     #---- Example: images_011/00027736_001.png 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-    pathFileTrain = './dataset/train_1.txt'
-    pathFileVal = './dataset/val_1.txt'
-    pathFileTest = './dataset/test_1.txt'
+    pathFileTrain   = os.path.join('.','dataset','train_1.txt')
+    pathFileVal     = os.path.join('.','dataset','val_1.txt')
+    pathFileTest    = os.path.join('.','dataset','test_1.txt')
     
     #---- Neural network parameters: type of the network, is it pre-trained 
     #---- on imagenet, number of classes
@@ -60,16 +60,16 @@ def runTrain():
 
 def runTest():
     
-    pathDirData = './database'
-    pathFileTest = './dataset/test_1.txt'
-    nnArchitecture = 'DENSE-NET-121'
+    pathDirData     = os.path.join(".",'database')
+    pathFileTest    = os.path.join('.','dataset','test_1.txt')
+    nnArchitecture  = 'DENSE-NET-121'
     nnIsTrained = True
     nnClassCount = 14
     trBatchSize = 16
     imgtransResize = 256
     imgtransCrop = 224
     
-    pathModel = './models/m-25012018-123527.pth.tar'
+    pathModel = os.path.join('.','models','m-25012018-123527.pth.tar')
     
     timestampLaunch = ''
     
