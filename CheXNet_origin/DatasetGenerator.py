@@ -27,6 +27,8 @@ class DatasetGenerator (Dataset):
         while line:
                 
             line = fileDescriptor.readline()
+            tempPath = line[0].split("/")
+            line[0] = os.path.join(tempPath[0],tempPath[1])
             
             #--- if not empty
             if line:

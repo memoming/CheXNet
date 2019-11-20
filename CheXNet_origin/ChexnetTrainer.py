@@ -115,7 +115,7 @@ class ChexnetTrainer ():
         
         for batchID, (input, target) in enumerate (dataLoader):
                         
-            target = target.cuda(async = True)
+            target = target.cuda()
                  
             varInput = torch.autograd.Variable(input)
             varTarget = torch.autograd.Variable(target)         
@@ -140,7 +140,7 @@ class ChexnetTrainer ():
         
         for i, (input, target) in enumerate (dataLoader):
             
-            target = target.cuda(async=True)
+            target = target.cuda()
                  
             varInput = torch.autograd.Variable(input, volatile=True)
             varTarget = torch.autograd.Variable(target, volatile=True)    
