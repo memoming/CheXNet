@@ -19,7 +19,7 @@ links = [
 	'https://nihcc.box.com/shared/static/ioqwiy20ihqwyr8pf4c24eazhh281pbu.gz'
 ]
 
-downloadDir = os.path.join(".","wholeData")
+downloadDir = "/srv/repo/users/memoming/CheXNet/wholeData"
 if not os.path.exists(downloadDir) :
     os.makedirs(downloadDir,exist_ok=True)
 for idx, link in enumerate(links):
