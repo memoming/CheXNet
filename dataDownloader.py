@@ -1,6 +1,7 @@
 # Modify for python3.x by memoming
 # Download the 56 zip files in Images_png in batches
 import urllib.request
+import os
 
 # URLs for the zip files
 links = [
@@ -18,8 +19,11 @@ links = [
 	'https://nihcc.box.com/shared/static/ioqwiy20ihqwyr8pf4c24eazhh281pbu.gz'
 ]
 
+downloadDir = os.path.join(".","wholeData")
+if not os.path.exists(downloadDir) :
+    os.makedirs(downloadDir,exist_ok=True)
 for idx, link in enumerate(links):
     fn = 'images_%02d.tar.gz' % (idx+1)
     print ('downloading', fn, '...')
-    urllib.request.urlretrieve(link, fn)  
+    urllib.request.urlretrieve(link, os.path.join(downloadDir,fn))  
 print ("Download complete. Please check the checksums")
