@@ -1,9 +1,11 @@
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 import os
 import time
 import sys
 
 import numpy as np
-from PIL import Image
+
 
 import torch
 import torch.nn as nn
@@ -197,7 +199,7 @@ if __name__ == "__main__" :
     timestampLaunch = timestampDate + '-' + timestampTime
 
     # Path to the directory with images
-    pathDirData = '/srv/repo/users/memoming/CheXNet/'
+    pathDirData = '/srv/repo/users/memoming/CheXNet/database'
 
     # images_011/00027736_001.png 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     pathFileTrain   = os.path.join('.','dataIndex','train_1.txt')
@@ -211,7 +213,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 32 #16
+    trBatchSize     = 16 #16
     trMaxEpoch      = 80 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
@@ -219,7 +221,7 @@ if __name__ == "__main__" :
     imgtransCrop    = 224
         
     pathModel = 'model_' + timestampLaunch + '.pth.tar'
-    
+
     print ('Training NN architecture = ', nnArchitecture)
     train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
