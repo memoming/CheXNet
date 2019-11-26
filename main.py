@@ -135,7 +135,7 @@ def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
         timestampDate = time.strftime("%d%m%Y")
         timestampEND = timestampDate + '-' + timestampTime
         
-        scheduler.step(losstensor.data[0])
+        scheduler.step(losstensor.item())
         
         if lossVal < lossMIN:
             lossMIN = lossVal    
@@ -175,13 +175,15 @@ def epochVal (model, dataLoader, optimizer, scheduler, epochMax, classCount, los
         
         for i, (input_, target) in enumerate (dataLoader):
             target      = target.cuda()
-            varInput    = torch.autograd.Variable(input_, volatile=True)
-            varTarget   = torch.autograd.Variable(target, volatile=True)    
-            varOutput   = model(varInput)
-            losstensor  = loss(varOutput, varTarget)
-            losstensorMean  += losstensor
-            lossVal         += losstensor.item()
-            lossValNorm     += 1
+            with torch.no_grad() :
+                varInput    = torch.autograd.Variable(input_)
+                varTarget   = torch.autograd.Variable(target)
+                    
+                varOutput   = model(varInput)
+                losstensor  = loss(varOutput, varTarget)
+                losstensorMean  += losstensor
+                lossVal         += losstensor.item()
+                lossValNorm     += 1
 
         outLoss         = lossVal / lossValNorm
         losstensorMean  = losstensorMean / lossValNorm
@@ -213,8 +215,8 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 16 #16
-    trMaxEpoch      = 80 #100
+    trBatchSize     = 8 #16
+    trMaxEpoch      = 10 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
     imgtransResize  = 256
