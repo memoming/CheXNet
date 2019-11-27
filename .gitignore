@@ -5,6 +5,7 @@ images.tar/
 CheXNet_origin/database/
 .vscode/
 wholeData/
+model/
 
 # Created by https://www.gitignore.io/api/macos,python,windows
 # Edit at https://www.gitignore.io/?templates=macos,python,windows

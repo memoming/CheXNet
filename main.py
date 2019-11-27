@@ -96,8 +96,8 @@ def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
     datasetTrain    = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTrain, transform=transformSequence)
     datasetVal      = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileVal, transform=transformSequence)
             
-    dataLoaderTrain = DataLoader(dataset=datasetTrain, batch_size=trBatchSize, shuffle=True,  num_workers=8, pin_memory=True)
-    dataLoaderVal   = DataLoader(dataset=datasetVal, batch_size=trBatchSize, shuffle=False, num_workers=8, pin_memory=True)
+    dataLoaderTrain = DataLoader(dataset=datasetTrain, batch_size=trBatchSize, shuffle=True,  num_workers=8, pin_memory=False)
+    dataLoaderVal   = DataLoader(dataset=datasetVal, batch_size=trBatchSize, shuffle=False, num_workers=8, pin_memory=False)
     print("DATASET BUILDERS ... done")
     
     #-------------------- SETTINGS: OPTIMIZER & SCHEDULER
@@ -215,7 +215,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 8 #16
+    trBatchSize     = 16 #16
     trMaxEpoch      = 10 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
