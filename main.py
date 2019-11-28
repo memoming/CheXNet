@@ -10,12 +10,17 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.backends.cudnn as cudnn
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
+# from encoding.parallel import DataParallelModel, DataParallelCriterion
 
 import torchvision
 from torchvision import transforms 
+
+from sklearn.metrics.ranking import roc_auc_score
+import re
 
 # ======================================================= #
 
@@ -73,6 +78,7 @@ class DatasetGenerator (Dataset):
 def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
             nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, \
             transResize, transCrop, launchTimestamp, checkpoint ) :
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0, 1'
 
     #-------------------- SETTINGS: NETWORK ARCHITECTURE
     if nnArchitecture   == 'DENSE-NET-121': model = DenseNet121(nnClassCount, nnIsTrained).cuda()
@@ -96,8 +102,8 @@ def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
     datasetTrain    = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTrain, transform=transformSequence)
     datasetVal      = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileVal, transform=transformSequence)
             
-    dataLoaderTrain = DataLoader(dataset=datasetTrain, batch_size=trBatchSize, shuffle=True,  num_workers=8, pin_memory=False)
-    dataLoaderVal   = DataLoader(dataset=datasetVal, batch_size=trBatchSize, shuffle=False, num_workers=8, pin_memory=False)
+    dataLoaderTrain = DataLoader(dataset=datasetTrain, batch_size=trBatchSize, shuffle=True,  num_workers=32, pin_memory=False)
+    dataLoaderVal   = DataLoader(dataset=datasetVal, batch_size=trBatchSize, shuffle=False, num_workers=32, pin_memory=False)
     print("DATASET BUILDERS ... done")
     
     #-------------------- SETTINGS: OPTIMIZER & SCHEDULER
@@ -126,7 +132,7 @@ def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
         timestampTime = time.strftime("%H%M%S")
         timestampDate = time.strftime("%d%m%Y")
         timestampSTART = timestampDate + '-' + timestampTime
-        print("epoch_",epochID,"TimeStamp :",timestampSTART)
+        print("epoch :",epochID,"/",trMaxEpoch," | ","TimeStamp :",timestampSTART)
                         
         epochTrain (model, dataLoaderTrain, optimizer, scheduler, trMaxEpoch, nnClassCount, loss)
         lossVal, losstensor = epochVal (model, dataLoaderVal, optimizer, scheduler, trMaxEpoch, nnClassCount, loss)
@@ -149,9 +155,9 @@ def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
 def epochTrain (model, dataLoader, optimizer, scheduler, epochMax, classCount, loss):
         
         model.train()
-        print("Enter Epoch Train")
+        print("TRAINING ==== ")
         for batchID, (input_, target) in enumerate (dataLoader):
-            print("barchID", batchID,"/",len(dataLoader))
+            print("\r","batchID", batchID,"/",len(dataLoader),end="")
             target = target.cuda()
                  
             varInput = torch.autograd.Variable(input_)
@@ -191,7 +197,104 @@ def epochVal (model, dataLoader, optimizer, scheduler, epochMax, classCount, los
 
 # ======================================================= #
 
+def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, transResize, transCrop, launchTimeStamp):   
+        
+        print("RUN TEST =====")
+        CLASS_NAMES = [ 'Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 'Mass', 'Nodule', 'Pneumonia',
+                'Pneumothorax', 'Consolidation', 'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
+        
+        cudnn.benchmark = True
+        
+        #-------------------- SETTINGS: NETWORK ARCHITECTURE, MODEL LOAD
+        if nnArchitecture == 'DENSE-NET-121': model = DenseNet121(nnClassCount, nnIsTrained).cuda()
+        # elif nnArchitecture == 'DENSE-NET-169': model = DenseNet169(nnClassCount, nnIsTrained).cuda()
+        # elif nnArchitecture == 'DENSE-NET-201': model = DenseNet201(nnClassCount, nnIsTrained).cuda()
+        
+        model = torch.nn.DataParallel(model).cuda() 
+        
+        ########################################################
+        modelCheckpoint = torch.load(pathModel)
+        # model.load_state_dict(modelCheckpoint['state_dict'])
+        
+
+        pattern = re.compile(r'^(.*denselayer\d+\.(?:norm|relu|conv))\.((?:[12])\.(?:weight|bias|running_mean|running_var))$')
+        state_dict = modelCheckpoint['state_dict']
+        for key in list(state_dict.keys()):
+            res = pattern.match(key)
+            if res:
+                new_key = res.group(1) + res.group(2)
+                state_dict[new_key] = state_dict[key]
+                del state_dict[key]
+        model.load_state_dict(state_dict)
+
+        print("model loaded.")
+
+        ########################################################
+
+
+        #-------------------- SETTINGS: DATA TRANSFORMS, TEN CROPS
+        normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        
+        #-------------------- SETTINGS: DATASET BUILDERS
+        transformList = []
+        transformList.append(transforms.Resize(transResize))
+        transformList.append(transforms.TenCrop(transCrop))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize(crop) for crop in crops])))
+        transformSequence=transforms.Compose(transformList)
+        
+        datasetTest = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTest, transform=transformSequence)
+        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=32, shuffle=False, pin_memory=True)
+        
+        outGT = torch.FloatTensor().cuda()
+        outPRED = torch.FloatTensor().cuda()
+       
+        model.eval()
+
+
+        print(" Evaluate ...")
+        for i, (input, target) in enumerate(dataLoaderTest):
+            
+            target = target.cuda()
+            outGT = torch.cat((outGT, target), 0)
+            
+            bs, n_crops, c, h, w = input.size()
+            
+            varInput = torch.autograd.Variable(input.view(-1, c, h, w).cuda(), volatile=True)
+            
+            out = model(varInput)
+            outMean = out.view(bs, n_crops, -1).mean(1)
+            
+            outPRED = torch.cat((outPRED, outMean.data), 0)
+            print("\r","===> ",i,"/",len(dataLoaderTest),end="")
+
+        aurocIndividual = computeAUROC(outGT, outPRED, nnClassCount)
+        aurocMean = np.array(aurocIndividual).mean()
+        
+        print ('AUROC mean ', aurocMean)
+        
+        for i in range (0, len(aurocIndividual)):
+            print (CLASS_NAMES[i], ' ', aurocIndividual[i])
+        return
+
+
+
+def computeAUROC (dataGT, dataPRED, classCount):
+    
+    outAUROC = []
+    
+    datanpGT = dataGT.cpu().numpy()
+    datanpPRED = dataPRED.cpu().numpy()
+    
+    for i in range(classCount):
+        outAUROC.append(roc_auc_score(datanpGT[:, i], datanpPRED[:, i]))
+        
+    return outAUROC
+
+# ==================================== #
+
 if __name__ == "__main__" : 
+    torch.cuda.empty_cache()
     DENSENET121 = 'DENSE-NET-121'
     DENSENET169 = 'DENSE-NET-169'
     DENSENET201 = 'DENSE-NET-201'
@@ -201,7 +304,7 @@ if __name__ == "__main__" :
     timestampLaunch = timestampDate + '-' + timestampTime
 
     # Path to the directory with images
-    pathDirData = '/srv/repo/users/memoming/CheXNet/database'
+    pathDirData = '/home/memoming/study/CheXNet/database'
 
     # images_011/00027736_001.png 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     pathFileTrain   = os.path.join('.','dataIndex','train_1.txt')
@@ -215,8 +318,8 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 16 #16
-    trMaxEpoch      = 10 #100
+    trBatchSize     = 32 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trMaxEpoch      = 150 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
     imgtransResize  = 256
@@ -224,6 +327,14 @@ if __name__ == "__main__" :
         
     pathModel = 'model_' + timestampLaunch + '.pth.tar'
 
-    print ('Training NN architecture = ', nnArchitecture)
-    train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
+
+    # print ('Training NN architecture = ', nnArchitecture)
+    # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
+
+
+
+    pathModel = "m-27112019-174526.pth.tar"
+    test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
+
+# ========================================== #

@@ -245,7 +245,7 @@ class ChexnetTrainer ():
         transformSequence=transforms.Compose(transformList)
         
         datasetTest = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTest, transform=transformSequence)
-        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=8, shuffle=False, pin_memory=True)
+        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=32, shuffle=False, pin_memory=True)
         
         outGT = torch.FloatTensor().cuda()
         outPRED = torch.FloatTensor().cuda()

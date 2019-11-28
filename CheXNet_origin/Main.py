@@ -9,8 +9,8 @@ from ChexnetTrainer import ChexnetTrainer
 
 def main ():
     
-    # runTest()
-    runTrain()
+    runTest()
+    # runTrain()
   
 #--------------------------------------------------------------------------------   
 
@@ -59,9 +59,10 @@ def runTrain():
 #-------------------------------------------------------------------------------- 
 
 def runTest():
-    
-    pathDirData     = os.path.join(".",'database')
-    pathFileTest    = os.path.join('.','dataset','test_1.txt')
+
+    # Path to the directory with images
+    pathDirData = '/home/memoming/study/CheXNet/database'
+    pathFileTest    = os.path.join('.',"..",'dataIndex','test_1.txt')
     nnArchitecture  = 'DENSE-NET-121'
     nnIsTrained = True
     nnClassCount = 14
@@ -69,7 +70,7 @@ def runTest():
     imgtransResize = 256
     imgtransCrop = 224
     
-    pathModel = os.path.join('.','models','m-25012018-123527.pth.tar')
+    pathModel = os.path.join('.',"..",'m-27112019-174526.pth.tar')
     
     timestampLaunch = ''
     

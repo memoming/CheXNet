@@ -91,9 +91,9 @@ class HeatmapGenerator ():
         
 #-------------------------------------------------------------------------------- 
 
-pathInputImage = 'test/00009285_000.png'
-pathOutputImage = 'test/heatmap.png'
-pathModel = 'models/m-25012018-123527.pth.tar'
+pathInputImage = os.path.join(".","..","test","00009285_000.png")
+pathOutputImage = os.path.join(".","..","test","heatmap_mine.png")
+pathModel = os.path.join(".","..","m-27112019-174526.pth.tar")
 
 nnArchitecture = 'DENSE-NET-121'
 nnClassCount = 14
