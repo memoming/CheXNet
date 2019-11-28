@@ -1,5 +1,5 @@
 # Chest X-ray Classification <br>Using Deep Learning
- ( Ref. [CheXNet Github]("https://github.com/zoogzog/chexnet") / [CheXNet Paper]("https://stanfordmlgroup.github.io/projects/chexnet/) )
+ ( Ref. [CheXNet Github](https://github.com/zoogzog/chexnet) / [CheXNet Paper](https://stanfordmlgroup.github.io/projects/chexnet/) )
 
 ----
 ### ToDo List
