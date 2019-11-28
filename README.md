@@ -1,5 +1,17 @@
-# CheXNet
-Catch up the project ChexNet
+# Chest X-ray Classification <br>Using Deep Learning
+ ( Ref. [CheXNet Github]("https://github.com/zoogzog/chexnet") / [CheXNet Paper]("https://stanfordmlgroup.github.io/projects/chexnet/) )
+
+----
+### ToDo List
+
+1. TestSet 모두 Heatmap Image 생성
+2. Preprocessing 에서 Resize하고 Crop 확인
+3. Normalizer 확인
+4. 3가지 Normalize 방법 마다 차이 확인
+5. K-fold cross validation 적용
+6. Categorical Training 적용
+7. Other Network 적용
+8. Transfer Learning 적용
 
 ----
 
