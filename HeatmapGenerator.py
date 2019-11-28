@@ -12,9 +12,7 @@ import torch.backends.cudnn as cudnn
 import torchvision
 import torchvision.transforms as transforms
 
-from DensenetModels import DenseNet121
-from DensenetModels import DenseNet169
-from DensenetModels import DenseNet201
+from DenseNet import DenseNet121
 
 #-------------------------------------------------------------------------------- 
 #---- Class to generate heatmaps (CAM)
@@ -26,8 +24,8 @@ class HeatmapGenerator ():
        
         #---- Initialize the network
         if nnArchitecture == 'DENSE-NET-121': model = DenseNet121(nnClassCount, True).cuda()
-        elif nnArchitecture == 'DENSE-NET-169': model = DenseNet169(nnClassCount, True).cuda()
-        elif nnArchitecture == 'DENSE-NET-201': model = DenseNet201(nnClassCount, True).cuda()
+        # elif nnArchitecture == 'DENSE-NET-169': model = DenseNet169(nnClassCount, True).cuda()
+        # elif nnArchitecture == 'DENSE-NET-201': model = DenseNet201(nnClassCount, True).cuda()
           
         model = torch.nn.DataParallel(model).cuda()
 
@@ -79,19 +77,45 @@ class HeatmapGenerator ():
         cam = npHeatmap / np.max(npHeatmap)
         cam = cv2.resize(cam, (transCrop, transCrop))
         heatmap = cv2.applyColorMap(np.uint8(255*cam), cv2.COLORMAP_JET)
-        img = heatmap * 0.5 + imgOriginal
+        img = heatmap * 0.35 + imgOriginal
         cv2.imwrite(pathOutputFile, img)
         
 #-------------------------------------------------------------------------------- 
 
-pathInputImage = os.path.join(".","..","test","00009285_000.png")
-pathOutputImage = os.path.join(".","..","test","heatmap_mine.png")
-pathModel = os.path.join(".","..","m-27112019-174526.pth.tar")
+if __name__ == "__main__" :
 
-nnArchitecture = 'DENSE-NET-121'
-nnClassCount = 14
+    pathDatasetFile    = os.path.join(".","dataIndex","test_1.txt")
+    pathImageDirectory = os.path.join(".","database")
+    listImagePaths     = []
+    listImageLabels    = []
+    fileDescriptor     = open(pathDatasetFile, "r")
 
-transCrop = 224
+    line = True
+    while line:
+        line = fileDescriptor.readline()
+        if line:
+            lineItems       = line.split()
+            temp_path       = lineItems[0].split("/")
+            lineItems[0]    = os.path.join(temp_path[0],temp_path[1])
+            imagePath       = os.path.join(pathImageDirectory, lineItems[0])
+            imageLabel      = lineItems[1:]
+            imageLabel      = [int(i) for i in imageLabel]
+            listImagePaths.append(imagePath)
+            listImageLabels.append(imageLabel)   
+    fileDescriptor.close()
 
-h = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
-h.generate(pathInputImage, pathOutputImage, transCrop)
+    nnArchitecture  = 'DENSE-NET-121'
+    nnClassCount    = 14
+    transCrop       = 224
+    pathModel       = os.path.join(".","models","m-27112019-174526.pth.tar")
+    heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
+    print("Generator Loaded.")
+
+
+    for i,eachImagePath in enumerate(listImagePaths) :
+        pathSaveDir     = os.path.join("/mnt","Hdd1","memoming","cheXNet","analyze","test_1_to_heatmap")
+        pathInputImage  = eachImagePath
+        pathOutputImage = os.path.join(pathSaveDir,eachImagePath.split(os.sep)[-1])
+        heatmapGen.generate(pathInputImage, pathOutputImage, transCrop)
+        print("\r","Generate ==> ",eachImagePath.split(os.sep)[-1],"(",i,"/",len(listImagePaths),")",end="")
+

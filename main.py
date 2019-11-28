@@ -277,8 +277,6 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
             print (CLASS_NAMES[i], ' ', aurocIndividual[i])
         return
 
-
-
 def computeAUROC (dataGT, dataPRED, classCount):
     
     outAUROC = []
