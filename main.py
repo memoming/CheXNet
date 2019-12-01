@@ -316,7 +316,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 32 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trBatchSize     = 64 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
     trMaxEpoch      = 150 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
@@ -326,13 +326,12 @@ if __name__ == "__main__" :
     pathModel = 'model_' + timestampLaunch + '.pth.tar'
 
 
-
-    # print ('Training NN architecture = ', nnArchitecture)
-    # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
-
+    print ('Training NN architecture = ', nnArchitecture)
+    train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
 
-    pathModel = "m-27112019-174526.pth.tar"
-    test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
+
+    # pathModel = "m-27112019-174526.pth.tar"
+    # test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
 # ========================================== #
