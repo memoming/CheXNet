@@ -244,7 +244,7 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         transformSequence=transforms.Compose(transformList)
         
         datasetTest = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTest, transform=transformSequence)
-        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=32, shuffle=False, pin_memory=True)
+        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=16, shuffle=False, pin_memory=True)
         
         outGT = torch.FloatTensor().cuda()
         outPRED = torch.FloatTensor().cuda()
@@ -302,7 +302,8 @@ if __name__ == "__main__" :
     timestampLaunch = timestampDate + '-' + timestampTime
 
     # Path to the directory with images
-    pathDirData = '/home/memoming/study/CheXNet/database'
+    # pathDirData = '/home/memoming/study/CheXNet/database'
+    pathDirData = "/srv/repo/users/memoming/CheXNet/database"
 
     # images_011/00027736_001.png 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     pathFileTrain   = os.path.join('.','dataIndex','train_1.txt')
@@ -316,7 +317,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 64 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trBatchSize     = 128 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
     trMaxEpoch      = 150 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
