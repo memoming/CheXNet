@@ -2,9 +2,10 @@ import os
 import subprocess
 
 #pathDownloadDir = "/srv/repo/users/memoming/CheXNet/wholeData"
-pathDownloadDir = "/mnt/NAS_Mount1/Janghoon_temp/20191112_OpenDataSets/NIH_Chest_Data/RawData"
+# pathDownloadDir = "/mnt/NAS_Mount1/Janghoon_temp/20191112_OpenDataSets/NIH_Chest_Data/RawData"
+pathDownloadDir = "C:\\Users\\memoming\\study\\CheXNet\\images.tar"
 #pathDatabase    = "/srv/repo/users/memoming/CheXNet/database"
-pathDatabase    = "/home/memoming/study/CheXNet/database"
+pathDatabase    = "C:\\Users\\memoming\\study\\CheXNet\\database"
 zipfileList     = os.listdir(pathDownloadDir)
 
 if not os.path.exists(pathDatabase) : os.makedirs(pathDatabase)
