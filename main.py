@@ -22,6 +22,9 @@ from torchvision import transforms
 from sklearn.metrics.ranking import roc_auc_score
 import re
 
+import cv2
+import math
+
 # ======================================================= #
 
 class DenseNet121(nn.Module):
@@ -65,8 +68,32 @@ class DatasetGenerator (Dataset):
     def __getitem__(self, index):
         imagePath   = self.listImagePaths[index]
         imageData   = Image.open(imagePath).convert('RGB')
+
+        pixData     = np.asarray(imageData)
+
+        Rchan = pixData[:,:,0]  # Red color channel
+        Gchan = pixData[:,:,1]  # Green color channel
+        Bchan = pixData[:,:,2]  # Blue color channel
+
+        Rchan_mean = Rchan.mean()
+        Gchan_mean = Gchan.mean()
+        Bchan_mean = Bchan.mean()
+
+        Rchan_sd = math.sqrt(Rchan.var())
+        Gchan_sd = math.sqrt(Gchan.var())
+        Bchan_sd = math.sqrt(Bchan.var())
+
+        normalize = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
+        transformList = []
+        transformList.append(transforms.RandomResizedCrop(224))
+        transformList.append(transforms.RandomHorizontalFlip())
+        transformList.append(transforms.ToTensor())
+        transformList.append(normalize)      
+        transformSequence=transforms.Compose(transformList)
+
         imageLabel  = torch.FloatTensor(self.listImageLabels[index])
-        if self.transform != None : imageData = self.transform(imageData)
+        # if self.transform != None : imageData = self.transform(imageData)
+        if self.transform != None : imageData = transformSequence(imageData)
         return imageData, imageLabel
         
     def __len__(self):
@@ -244,7 +271,7 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         transformSequence=transforms.Compose(transformList)
         
         datasetTest = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTest, transform=transformSequence)
-        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=16, shuffle=False, pin_memory=True)
+        dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=8, shuffle=False, pin_memory=True)
         
         outGT = torch.FloatTensor().cuda()
         outPRED = torch.FloatTensor().cuda()
@@ -317,8 +344,8 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 128 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
-    trMaxEpoch      = 150 #100
+    trBatchSize     = 96 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trMaxEpoch      = 100 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
     imgtransResize  = 256
