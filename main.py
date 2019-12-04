@@ -258,6 +258,9 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         ########################################################
 
 
+        
+
+
         #-------------------- SETTINGS: DATA TRANSFORMS, TEN CROPS
         normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         
@@ -268,6 +271,11 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
         transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize(crop) for crop in crops])))
         transformSequence=transforms.Compose(transformList)
+
+
+
+
+
         
         datasetTest = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTest, transform=transformSequence)
         dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=8, shuffle=False, pin_memory=True)
@@ -343,7 +351,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 192 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trBatchSize     = 32 #origin : train&test : 16 / my : train : 256 -> 192 / test : 32
     trMaxEpoch      = 100 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
@@ -353,12 +361,12 @@ if __name__ == "__main__" :
     pathModel = 'model_' + timestampLaunch + '.pth.tar'
 
 
-    print ('Training NN architecture = ', nnArchitecture)
-    train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
+    # print ('Training NN architecture = ', nnArchitecture)
+    # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
 
 
-    # pathModel = "m-27112019-174526.pth.tar"
-    # test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
+    pathModel = os.path.join("models","m-27112019-174526.pth.tar")
+    test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
 # ========================================== #
