@@ -39,20 +39,43 @@ class HeatmapGenerator ():
         self.weights = list(self.model.parameters())[-2]
 
         #---- Initialize the image transform - resize + normalize
-        normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        transformList = []
-        transformList.append(transforms.Resize(transCrop))
-        transformList.append(transforms.ToTensor())
-        transformList.append(normalize)      
+        # normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        # transformList = []
+        # transformList.append(transforms.Resize(transCrop))
+        # transformList.append(transforms.ToTensor())
+        # transformList.append(normalize)      
         
-        self.transformSequence = transforms.Compose(transformList)
+        # self.transformSequence = transforms.Compose(transformList)
     
     #--------------------------------------------------------------------------------
      
     def generate (self, pathImageFile, pathOutputFile, transCrop):
         
         #---- Load image, transform, convert 
-        imageData = Image.open(pathImageFile).convert('RGB')
+        imageData   = Image.open(pathImageFile).convert('RGB')
+        pixData     = np.asarray(imageData)
+
+        Rchan = pixData[:,:,0]  # Red color channel
+        Gchan = pixData[:,:,1]  # Green color channel
+        Bchan = pixData[:,:,2]  # Blue color channel
+
+        Rchan_mean = Rchan.mean()
+        Gchan_mean = Gchan.mean()
+        Bchan_mean = Bchan.mean()
+
+        Rchan_sd = math.sqrt(Rchan.var())
+        Gchan_sd = math.sqrt(Gchan.var())
+        Bchan_sd = math.sqrt(Bchan.var())
+
+        normalize = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
+        transformList = []
+        transformList.append(transforms.RandomResizedCrop(224))
+        transformList.append(transforms.RandomHorizontalFlip())
+        transformList.append(transforms.ToTensor())
+        transformList.append(normalize)      
+        self.transformSequence = transforms.Compose(transformList)
+
+
         imageData = self.transformSequence(imageData)
         imageData = imageData.unsqueeze_(0)
         
@@ -63,10 +86,14 @@ class HeatmapGenerator ():
         
         #---- Generate heatmap
         heatmap = None
+        threshold = 0.9
         for i in range (0, len(self.weights)):
             map = output[0,i,:,:]
-            if i == 0: heatmap = self.weights[i] * map
-            else: heatmap += self.weights[i] * map
+            each_weight = self.weights[i]
+            if each_weight < np.max(self.weights)*(1-threshold) :
+                each_weight = 0
+            if i == 0: heatmap = each_weight * map * threshold
+            else : heatmap += each_weight * map * threshold
         
         #---- Blend original and heatmap 
         npHeatmap = heatmap.cpu().data.numpy()

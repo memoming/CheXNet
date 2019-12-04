@@ -12,6 +12,7 @@
 6. Categorical Training 적용
 7. Other Network 적용
 8. Transfer Learning 적용
+9. Post Processing에서 Activation Map의 Threshold 변경
 
 ----
 ### 04-DEC-2019
@@ -22,6 +23,7 @@
 
 ### 28-NOV-2019
  * Training :: Batch 128, Epoch 150으로 16h 소요.
+ * ImageNet에서의 Pretraining 된 Network를 가져와서 적용.
 
 <table>
 <thead>
