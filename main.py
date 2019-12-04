@@ -329,8 +329,8 @@ if __name__ == "__main__" :
     timestampLaunch = timestampDate + '-' + timestampTime
 
     # Path to the directory with images
-    # pathDirData = '/home/memoming/study/CheXNet/database'
-    pathDirData = "/srv/repo/users/memoming/CheXNet/database"
+    pathDirData = '/home/memoming/study/CheXNet/database'
+    # pathDirData = "/srv/repo/users/memoming/CheXNet/database"
 
     # images_011/00027736_001.png 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     pathFileTrain   = os.path.join('.','dataIndex','train_1.txt')
@@ -344,7 +344,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 96 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trBatchSize     = 192 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
     trMaxEpoch      = 100 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image

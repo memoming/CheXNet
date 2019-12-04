@@ -4,15 +4,20 @@
 ----
 ### ToDo List
 
-1. TestSet 모두 Heatmap Image 생성
+~~1. TestSet 모두 Heatmap Image 생성~~
 2. Preprocessing 에서 Resize하고 Crop 확인
-3. Normalizer 확인
-4. 3가지 Normalize 방법 마다 차이 확인
+~~3. Normalizer 확인~~
+~~4. 3가지 Normalize 방법 마다 차이 확인~~
 5. K-fold cross validation 적용
 6. Categorical Training 적용
 7. Other Network 적용
 8. Transfer Learning 적용
 
+----
+### 04-DEC-2019
+* Image별 Normalize 적용 (0~1) -> Next Normalize (-1~1)
+* Training :: Batch 192, Epoch 100, 33h 소요.
+* 기존 Constant Value에서 각각의 연산이 추가되어 트레이닝 시간이 길어짐.
 ----
 
 ### 28-NOV-2019
