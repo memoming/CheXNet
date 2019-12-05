@@ -366,7 +366,7 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 128 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trBatchSize     = 256 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
     trMaxEpoch      = 100 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image

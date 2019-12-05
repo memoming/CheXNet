@@ -36,6 +36,11 @@
 | P.T.          | 0.783         | 0.767          |
 | Hernia        | 0.930         | 0.942          |
 | <b>Total AUROC  | <b>0.842    | <b>0.828       |
+<br>
+
+* Next Training
+* Normalize -1 ~ 1 적용.
+* Training :: Batch 256, Epoch 100
 ----
 ### 04-DEC-2019
 * Image별 Normalize 적용 (0~1) -> Next Normalize (-1~1)
