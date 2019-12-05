@@ -17,12 +17,55 @@
 ----
 ### 05-DEC-2019
 * Train Loss 0.154
-* Test Batch Size 16 
+* Test Batch Size 16
+
+| Pathology     |AUROC <br>(CIFAR Norm)   | AUROC <br>(Zero to One Norm)|
+| ------------- |:-------------:|:--------------:|
+| Atelectasis   | 0.825         | 0.804          |
+| Cardiomegaly  | 0.896         | 0.910          |
+| Effusion      | 0.883         | 0.873          |
+| Infiltration  | 0.707         | 0.702          |
+| Mass          | 0.855         | 0.838          |
+| Nodule        | 0.783         | 0.763          |
+| Pneumonia     | 0.764         | 0.748          |
+| Pneumothorax  | 0.872         | 0.855          |
+| Consolidation | 0.812         | 0.800          |
+| Edema         | 0.900         | 0.889          |
+| Emphysema     | 0.932         | 0.899          |
+| Fibrosis      | 0.851         | 0.809          |
+| P.T.          | 0.783         | 0.767          |
+| Hernia        | 0.930         | 0.942          |
+| <b>Total AUROC  | <b>0.842    | <b>0.828       |
 ----
 ### 04-DEC-2019
 * Image별 Normalize 적용 (0~1) -> Next Normalize (-1~1)
 * Training :: Batch 192, Epoch 100, 33h 소요.
 * 기존 Constant Value에서 각각의 연산이 추가되어 트레이닝 시간이 길어짐.
+* Activation Map with Threshold
+* Threshold 0.5 & 0.7 ( 50% & 70% )
+<table>
+<thead>
+  <tr>
+  <th align="center">Origin Image</th>
+  <th align="center">Threshold 0.5</th>
+  <th align="center">Threshold 0.7</th>
+  </tr>
+</thead>
+<tbody>
+    <tr>
+        <td align="center">
+        <img src="test/00009285_000.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_mine.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap.png" width="224px"/>
+        </td>  
+    </tr>
+  </tbody>
+</table>
+
 ----
 
 ### 28-NOV-2019
