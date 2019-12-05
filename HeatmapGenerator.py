@@ -126,6 +126,7 @@ class HeatmapGenerator ():
         for i,eachList in enumerate(cam) :
             for j,each in enumerate(list(eachList)) :
                 if each < threshold : cam[i][j] = None
+                else : cam[i][j] = (cam[i][j]-threshold)/(1-threshold)
         
         heatmap = cv2.applyColorMap(np.uint8(255*cam), cv2.COLORMAP_JET)
         img = heatmap * 0.5 + imgOriginal
