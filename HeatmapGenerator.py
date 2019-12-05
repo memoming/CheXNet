@@ -121,14 +121,11 @@ class HeatmapGenerator ():
         cam = npHeatmap / np.max(npHeatmap)
 
         cam = cv2.resize(cam, (transCrop, transCrop))
-        threshold = 0.5
+        threshold = 0.8
 
         for i,eachList in enumerate(cam) :
             for j,each in enumerate(list(eachList)) :
                 if each < threshold : cam[i][j] = None
-        
-        for i in cam :
-            print(i)
         
         heatmap = cv2.applyColorMap(np.uint8(255*cam), cv2.COLORMAP_JET)
         img = heatmap * 0.5 + imgOriginal
@@ -161,13 +158,13 @@ if __name__ == "__main__" :
     nnArchitecture  = 'DENSE-NET-121'
     nnClassCount    = 14
     transCrop       = 224
-    pathModel       = os.path.join(".","models","m-27112019-174526.pth.tar")
+    pathModel       = os.path.join(".","models","m-04122019-124803.pth.tar")
     # pathModel       = os.path.join(".","models","m-25012018-123527.pth.tar")
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 
     pathInputImage = os.path.join("test","00009285_000.png")
-    pathOutputImage = os.path.join("test","heatmap_threshold_4.png")
+    pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
     heatmapGen.generate(pathInputImage, pathOutputImage, transCrop)
     print("Done !")
 

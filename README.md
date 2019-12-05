@@ -42,13 +42,13 @@
 * Training :: Batch 192, Epoch 100, 33h 소요.
 * 기존 Constant Value에서 각각의 연산이 추가되어 트레이닝 시간이 길어짐.
 * Activation Map with Threshold
-* Threshold 0.5 & 0.7 ( 50% & 70% )
+* Threshold 0.5 & 0.8 ( 50% & 80% )
 <table>
 <thead>
   <tr>
   <th align="center">Origin Image</th>
   <th align="center">Threshold 0.5</th>
-  <th align="center">Threshold 0.7</th>
+  <th align="center">Threshold 0.8</th>
   </tr>
 </thead>
 <tbody>
@@ -57,10 +57,10 @@
         <img src="test/00009285_000.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_mine.png" width="224px"/>
+        <img src="test/heatmap_threshold_0.5.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap.png" width="224px"/>
+        <img src="test/heatmap_threshold_0.8.png" width="224px"/>
         </td>  
     </tr>
   </tbody>
