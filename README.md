@@ -15,6 +15,10 @@
 9. Post Processing에서 Activation Map의 Threshold 변경
 
 ----
+### 05-DEC-2019
+* Train Loss 0.154
+* Test Batch Size 16 
+----
 ### 04-DEC-2019
 * Image별 Normalize 적용 (0~1) -> Next Normalize (-1~1)
 * Training :: Batch 192, Epoch 100, 33h 소요.
