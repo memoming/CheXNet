@@ -271,6 +271,9 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         ########################################################
 
 
+        
+
+
         #-------------------- SETTINGS: DATA TRANSFORMS, TEN CROPS
         normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         
@@ -281,6 +284,11 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
         transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize(crop) for crop in crops])))
         transformSequence=transforms.Compose(transformList)
+
+
+
+
+
         
         datasetTest = DatasetGenerator(pathImageDirectory=pathDirData, pathDatasetFile=pathFileTest, transform=transformSequence)
         dataLoaderTest = DataLoader(dataset=datasetTest, batch_size=trBatchSize, num_workers=32, shuffle=False, pin_memory=True)
@@ -368,7 +376,6 @@ if __name__ == "__main__" :
 
     # print ('Training NN architecture = ', nnArchitecture)
     # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
-
 
 
     pathModel = "m-04122019-124803.pth.tar"
