@@ -16,29 +16,113 @@
 
 ----
 ### 05-DEC-2019
-* Train Loss 0.154
-* Test Batch Size 16
+* 0 To 1 :: Train Loss = 0.154 | Test Batch Size = 16
+* -1 To 1 :: Train Loss = 0.149 | Test Batch Size = 16
 
-| Pathology     |AUROC <br>(CIFAR Norm)   | AUROC <br>(Zero to One Norm)|
-| ------------- |:-------------:|:--------------:|
-| Atelectasis   | 0.825         | 0.804          |
-| Cardiomegaly  | 0.896         | 0.910          |
-| Effusion      | 0.883         | 0.873          |
-| Infiltration  | 0.707         | 0.702          |
-| Mass          | 0.855         | 0.838          |
-| Nodule        | 0.783         | 0.763          |
-| Pneumonia     | 0.764         | 0.748          |
-| Pneumothorax  | 0.872         | 0.855          |
-| Consolidation | 0.812         | 0.800          |
-| Edema         | 0.900         | 0.889          |
-| Emphysema     | 0.932         | 0.899          |
-| Fibrosis      | 0.851         | 0.809          |
-| P.T.          | 0.783         | 0.767          |
-| Hernia        | 0.930         | 0.942          |
-| <b>Total AUROC  | <b>0.842    | <b>0.828       |
+<table>
+<thead>
+  <tr>
+  <th align="center">Normal</th>
+  <th align="center">Atelectasis</th>
+  <th align="center">Cardiomegaly</th>
+  <th align="center">Effusion</th>
+  </tr>
+</thead>
+<tbody>
+    <tr>
+        <td align="center">
+        <img src="test/heatmap_normal.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Atelectasis.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Cardiomegaly.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Effusion.png" width="224px"/>
+        </td>   
+    </tr>
+    <tr>
+        <th align="center">Infiltration</th>
+        <th align="center">Mass</th>
+        <th align="center">Nodule</th>
+        <th align="center">Pneumonia</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="test/heatmap_Infiltration.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Mass.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Nodule.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Pneumonia.png" width="224px"/>
+        </td>   
+    </tr>
+    <tr>
+        <th align="center">Pneumothorax</th>
+        <th align="center">Consolidation</th>
+        <th align="center">Edema</th>
+        <th align="center">Emphysema</th>
+    </tr>
+    <tr>
+    <td align="center">
+        <img src="test/heatmap_Pneumothorax.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Consolidation.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Edema.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Emphysema.png" width="224px"/>
+        </td>  
+    </tr>
+    <tr>
+        <th align="center">Fibrosis</th>
+        <th align="center">Pleural_Thickening</th>
+        <th align="center">Hernia</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="test/heatmap_Fibrosis.png" width="224px"/>
+        </td> 
+        <td align="center">
+        <img src="test/heatmap_Pleural_Thickening.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="test/heatmap_Hernia.png" width="224px"/>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+
+| Pathology     |AUROC <br>(CIFAR Norm)   | AUROC <br>(0 to 1 Norm)| AUROC <br>(-1 To 1 Norm)
+| ------------- |:-------------:|:--------------:|:--------------:|
+| Atelectasis   | 0.825         | 0.804          | 0.823          |
+| Cardiomegaly  | 0.896         | 0.910          | 0.903          |
+| Effusion      | 0.883         | 0.873          | 0.883          |
+| Infiltration  | 0.707         | 0.702          | 0.709          |
+| Mass          | 0.855         | 0.838          | 0.852          |
+| Nodule        | 0.783         | 0.763          | 0.790          |
+| Pneumonia     | 0.764         | 0.748          | 0.770          |
+| Pneumothorax  | 0.872         | 0.855          | 0.878          |
+| Consolidation | 0.812         | 0.800          | 0.816          |
+| Edema         | 0.900         | 0.889          | 0.900          |
+| Emphysema     | 0.932         | 0.899          | 0.931          |
+| Fibrosis      | 0.851         | 0.809          | 0.840          |
+| P.T.          | 0.783         | 0.767          | 0.789          |
+| Hernia        | 0.930         | 0.942          | 0.938          |
+| <b>Total AUROC  | <b>0.842    | <b>0.828       | <b>0.844       |
 <br>
 
-* Next Training
+* Next Training ... Done
 * Normalize -1 ~ 1 적용.
 * Training :: Batch 256, Epoch 100
 ----

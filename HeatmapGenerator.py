@@ -56,7 +56,8 @@ class HeatmapGenerator ():
         self.weights = list(self.model.parameters())[-2]
 
         #---- Initialize the image transform - resize + normalize
-        normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        # normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        normalize = transforms.Normalize([0.5, 0.5 ,0.5], [0.5, 0.5, 0.5])
         transformList = []
         transformList.append(transforms.Resize(transCrop))
         transformList.append(transforms.ToTensor())
@@ -102,7 +103,6 @@ class HeatmapGenerator ():
         output = self.model(input.cuda())
         
         #---- Generate heatmap
-        threshold = 0.9
         heatmap = None
         for i in range (0, len(self.weights)):
             map = output[0,i,:,:]
@@ -159,13 +159,36 @@ if __name__ == "__main__" :
     nnArchitecture  = 'DENSE-NET-121'
     nnClassCount    = 14
     transCrop       = 224
-    pathModel       = os.path.join(".","models","m-04122019-124803.pth.tar")
-    # pathModel       = os.path.join(".","models","m-25012018-123527.pth.tar")
+    pathModel       = os.path.join(".","models","m-05122019-142304.pth.tar")
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 
-    pathInputImage = os.path.join("test","00009285_000.png")
-    pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
+    # pathInputImage = os.path.join("test","00009285_000.png")
+    # pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
+
+    pathDirData = '/home/memoming/study/CheXNet/database'
+    pathInputImage = os.path.join(pathDirData,"images_008/00016168_000.png") # normal
+    pathInputImage = os.path.join(pathDirData,"images_005/00010808_002.png") # Atelectasis
+    pathInputImage = os.path.join(pathDirData,"images_004/00007551_016.png") # Cardiomegaly
+    pathInputImage = os.path.join(pathDirData,"images_008/00017943_000.png") # Effusion
+    pathInputImage = os.path.join(pathDirData,"images_010/00021742_000.png") # Infiltration
+    pathInputImage = os.path.join(pathDirData,"images_011/00026330_002.png") # Mass
+    pathInputImage = os.path.join(pathDirData,"images_007/00014178_009.png") # Nodule
+    pathInputImage = os.path.join(pathDirData,"images_001/00001021_000.png") # Pneumonia
+    pathInputImage = os.path.join(pathDirData,"images_008/00016587_004.png") # Pneumothorax
+    pathInputImage = os.path.join(pathDirData,"images_005/00010007_130.png") # Consolidation
+    pathInputImage = os.path.join(pathDirData,"images_008/00016184_042.png") # Edema
+    pathInputImage = os.path.join(pathDirData,"images_008/00016122_005.png") # Emphysema
+    pathInputImage = os.path.join(pathDirData,"images_002/00003675_001.png") # Fibrosis
+    pathInputImage = os.path.join(pathDirData,"images_007/00014232_003.png") # Pleural_Thickening
+    pathInputImage = os.path.join(pathDirData,"images_010/00021902_000.png") # Hernia
+    
+    pathOutputImage = os.path.join("test","heatmap_TEST.png")
+    
+
+
+    
+
     heatmapGen.generate(pathInputImage, pathOutputImage, transCrop)
     print("Done !")
 
