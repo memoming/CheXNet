@@ -7,7 +7,6 @@ CheXNet_origin/database/
 wholeData/
 model/
 database/
-models/
 analyze/
 nohup.out
 *.tar

@@ -172,6 +172,7 @@ if __name__ == "__main__" :
     labelList   = [ 'Normal','Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 
                     'Mass', 'Nodule', 'Pneumonia', 'Pneumothorax', 'Consolidation', 
                     'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
+                    
     pathList    = list()
     pathList.append(os.path.join(pathDirData,"images_008/00016168_000.png")) # normal
     pathList.append(os.path.join(pathDirData,"images_005/00010808_002.png")) # Atelectasis
