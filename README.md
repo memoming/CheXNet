@@ -3,7 +3,6 @@
 
 ----
 ### ToDo List
-
 ~~1. TestSet 모두 Heatmap Image 생성~~ (Done)<br/>
 ~~2. Preprocessing 에서 Resize하고 Crop 확인~~ (Done) <br/>
 ~~3. Normalizer 확인~~ (Done)<br/>
@@ -20,27 +19,27 @@
 * -1 To 1 :: Train Loss = 0.149 | Test Batch Size = 16
 
 <table>
-<thead>
-  <tr>
-  <th align="center">Normal</th>
-  <th align="center">Atelectasis</th>
-  <th align="center">Cardiomegaly</th>
-  <th align="center">Effusion</th>
-  </tr>
-</thead>
+  <thead>
+    <tr>
+    <th align="center">Normal</th>
+    <th align="center">Atelectasis</th>
+    <th align="center">Cardiomegaly</th>
+    <th align="center">Effusion</th>
+    </tr>
+  </thead>
 <tbody>
     <tr>
         <td align="center">
-        <img src="test/heatmap_normal.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_normal.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Atelectasis.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Atelectasis.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Cardiomegaly.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Cardiomegaly.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Effusion.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Effusion.png" width="224px"/>
         </td>   
     </tr>
     <tr>
@@ -51,16 +50,16 @@
     </tr>
     <tr>
         <td align="center">
-        <img src="test/heatmap_Infiltration.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Infiltration.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Mass.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Mass.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Nodule.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Nodule.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Pneumonia.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Pneumonia.png" width="224px"/>
         </td>   
     </tr>
     <tr>
@@ -70,17 +69,17 @@
         <th align="center">Emphysema</th>
     </tr>
     <tr>
-    <td align="center">
-        <img src="test/heatmap_Pneumothorax.png" width="224px"/>
+        <td align="center">
+        <img src="web/img/05-DEC-2019/heatmap_Pneumothorax.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Consolidation.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Consolidation.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Edema.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Edema.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Emphysema.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Emphysema.png" width="224px"/>
         </td>  
     </tr>
     <tr>
@@ -90,13 +89,13 @@
     </tr>
     <tr>
         <td align="center">
-        <img src="test/heatmap_Fibrosis.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Fibrosis.png" width="224px"/>
         </td> 
         <td align="center">
-        <img src="test/heatmap_Pleural_Thickening.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Pleural_Thickening.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_Hernia.png" width="224px"/>
+        <img src="web/img/05-DEC-2019/heatmap_Hernia.png" width="224px"/>
         </td>
     </tr>
   </tbody>
@@ -143,13 +142,13 @@
 <tbody>
     <tr>
         <td align="center">
-        <img src="test/00009285_000.png" width="224px"/>
+        <img src="web/img/00009285_000.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_threshold_0.5.png" width="224px"/>
+        <img src="web/img/heatmap_threshold_0.5.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_threshold_0.8.png" width="224px"/>
+        <img src="web/img/heatmap_threshold_0.8.png" width="224px"/>
         </td>  
     </tr>
   </tbody>
@@ -172,13 +171,13 @@
 <tbody>
     <tr>
         <td align="center">
-        <img src="test/00009285_000.png" width="224px"/>
+        <img src="web/img/00009285_000.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap_mine.png" width="224px"/>
+        <img src="web/img/heatmap_mine.png" width="224px"/>
         </td>
         <td align="center">
-        <img src="test/heatmap.png" width="224px"/>
+        <img src="web/img/heatmap.png" width="224px"/>
         </td>  
     </tr>
   </tbody>
