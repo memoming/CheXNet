@@ -19,7 +19,7 @@
 ----
 
 ### 10-DEC-2019
-* <b>Threshold 0.5 Visualize (05-DEC-2019 Model)</b><br>
+#### <b>Threshold 0.5 Visualize (05-DEC-2019 Model)</b><br>
 
 <table>
   <thead>
@@ -327,9 +327,10 @@
     </tr>
   </tbody>
 </table>
+<br/>
 
 
-* <b>Threshold 0.5 Visualize (Paper Model)</b><br>
+#### <b>Threshold 0.5 Visualize (Paper Model)</b><br>
 
 <table>
   <thead>
