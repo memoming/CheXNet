@@ -4,16 +4,17 @@
 ----
 ### ToDo List
 
-5. K-fold cross validation 적용<br/>
-6. Categorical Training 적용<br/>
-7. Other Network 적용<br/>
-8. Transfer Learning 적용<br/>
-10. Normal / Cardiomegaly / Lung / Pleural Categorical Training (for Localization) <br/>
-~~1. TestSet 모두 Heatmap Image 생성~~ (Done)<br/>
-~~2. Preprocessing 에서 Resize하고 Crop 확인~~ (Done) <br/>
-~~3. Normalizer 확인~~ (Done)<br/>
-~~4. 3가지 Normalize 방법 마다 차이 확인~~ (Done)<br/>
-~~9. Post Processing에서 Activation Map의 Threshold 변경~~ (Done)<br/>
+05 - K-fold cross validation 적용<br/>
+06 - Categorical Training 적용<br/>
+07 - Other Network 적용<br/>
+08 - Transfer Learning 적용<br/>
+10 - Normal / Cardiomegaly / Lung / Pleural Categorical Training (for Localization) <br/>
+
+~~01 - TestSet 모두 Heatmap Image 생성~~ (Done)<br/>
+~~02 - Preprocessing 에서 Resize하고 Crop 확인~~ (Done) <br/>
+~~03 - Normalizer 확인~~ (Done)<br/>
+~~04 - 3가지 Normalize 방법 마다 차이 확인~~ (Done)<br/>
+~~09 - Post Processing에서 Activation Map의 Threshold 변경~~ (Done)<br/>
 
 ----
 ### 10-DEC-2019
