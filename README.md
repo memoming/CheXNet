@@ -14,6 +14,178 @@
 ~~9. Post Processing에서 Activation Map의 Threshold 변경~~ (Done)
 
 ----
+### 10-DEC-2019
+* <b>Threshold 0.5 Visualize (05-DEC-2019 Model)</b><br>
+<table>
+  <thead>
+    <tr>
+    <th align="center">Normal</th>
+    <th align="center">Atelectasis</th>
+    <th align="center">Cardiomegaly</th>
+    <th align="center">Effusion</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Normal.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Atelectasis.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Cardiomegaly.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Effusion.png" width="224px"/>
+        </td>   
+    </tr>
+    <tr>
+        <th align="center">Infiltration</th>
+        <th align="center">Mass</th>
+        <th align="center">Nodule</th>
+        <th align="center">Pneumonia</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Infiltration.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Mass.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Nodule.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Pneumonia.png" width="224px"/>
+        </td>   
+    </tr>
+    <tr>
+        <th align="center">Pneumothorax</th>
+        <th align="center">Consolidation</th>
+        <th align="center">Edema</th>
+        <th align="center">Emphysema</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Pneumothorax.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Consolidation.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Edema.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Emphysema.png" width="224px"/>
+        </td>  
+    </tr>
+    <tr>
+        <th align="center">Fibrosis</th>
+        <th align="center">Pleural_Thickening</th>
+        <th align="center">Hernia</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Fibrosis.png" width="224px"/>
+        </td> 
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Pleural_Thickening.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/10-DEC-2019/heatmap_Hernia.png" width="224px"/>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+* <b>Threshold 0.5 Visualize (Paper Model)</b><br>
+
+<table>
+  <thead>
+    <tr>
+    <th align="center">Normal</th>
+    <th align="center">Atelectasis</th>
+    <th align="center">Cardiomegaly</th>
+    <th align="center">Effusion</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Normal.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Atelectasis.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Cardiomegaly.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Effusion.png" width="224px"/>
+        </td>   
+    </tr>
+    <tr>
+        <th align="center">Infiltration</th>
+        <th align="center">Mass</th>
+        <th align="center">Nodule</th>
+        <th align="center">Pneumonia</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Infiltration.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Mass.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Nodule.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Pneumonia.png" width="224px"/>
+        </td>   
+    </tr>
+    <tr>
+        <th align="center">Pneumothorax</th>
+        <th align="center">Consolidation</th>
+        <th align="center">Edema</th>
+        <th align="center">Emphysema</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Pneumothorax.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Consolidation.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Edema.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Emphysema.png" width="224px"/>
+        </td>  
+    </tr>
+    <tr>
+        <th align="center">Fibrosis</th>
+        <th align="center">Pleural_Thickening</th>
+        <th align="center">Hernia</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Fibrosis.png" width="224px"/>
+        </td> 
+        <td align="center">
+        <img src="web/img/paper/heatmap_Pleural_Thickening.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/paper/heatmap_Hernia.png" width="224px"/>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+
+----
 ### 05-DEC-2019
 * 0 To 1 :: Train Loss = 0.154 | Test Batch Size = 16
 * -1 To 1 :: Train Loss = 0.149 | Test Batch Size = 16

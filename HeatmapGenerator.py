@@ -160,21 +160,23 @@ if __name__ == "__main__" :
     nnClassCount    = 14
     transCrop       = 224
     pathModel       = os.path.join(".","models","m-05122019-142304.pth.tar")
+    # pathModel       = os.path.join(".","models","papers.pth.tar")
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 
     # pathInputImage = os.path.join("test","00009285_000.png")
     # pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
 
-    pathDirData = '/home/memoming/study/CheXNet/database'
-    # pathDirData = '/srv/repo/users/memoming/CheXNet/database'
+    # pathDirData = '/home/memoming/study/CheXNet/database'
+    pathDirData = '/srv/repo/users/memoming/CheXNet/database'
 
-    labelList   = [ 'Normal','Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 
+    labelList   = [ 'Normal','TEST','Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 
                     'Mass', 'Nodule', 'Pneumonia', 'Pneumothorax', 'Consolidation', 
                     'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
-                    
+
     pathList    = list()
     pathList.append(os.path.join(pathDirData,"images_008/00016168_000.png")) # normal
+    pathList.append(os.path.join(".","test","testImg","00009285_000.png"))   # TEST
     pathList.append(os.path.join(pathDirData,"images_005/00010808_002.png")) # Atelectasis
     pathList.append(os.path.join(pathDirData,"images_004/00007551_016.png")) # Cardiomegaly
     pathList.append(os.path.join(pathDirData,"images_008/00017943_000.png")) # Effusion
