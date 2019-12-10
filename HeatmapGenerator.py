@@ -13,6 +13,7 @@ import torchvision
 import torchvision.transforms as transforms
 import math
 import re
+import random
 
 from DenseNet import DenseNet121
 
@@ -131,11 +132,36 @@ class HeatmapGenerator ():
         heatmap = cv2.applyColorMap(np.uint8(255*cam), cv2.COLORMAP_JET)
         img = heatmap * 0.4 + imgOriginal
         cv2.imwrite(pathOutputFile, img)
+
+def getImageData(pathDataFile) :
+    labelList   = [ 'Normal','Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 
+                    'Mass', 'Nodule', 'Pneumonia', 'Pneumothorax', 'Consolidation', 
+                    'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia' ]
+
+    wholeDataList = list()
+    for _ in range(15) :
+        wholeDataList.append([])
+
+    with open(pathDataFile,"r") as readStream :
+        wholeData = readStream.readlines()
+        for eachLine in wholeData :
+            sepEachLine = eachLine.split()
+            if sepEachLine[1:].count('1') == 0 :
+                wholeDataList[0].append(sepEachLine[0])
+            elif sepEachLine[1:].count('1') == 1 :
+                wholeDataList[sepEachLine[1:].index('1')+1].append(sepEachLine[0])
+            else :
+                continue
+    return (labelList,wholeDataList)
+
+            
+
+
         
 #-------------------------------------------------------------------------------- 
 
 if __name__ == "__main__" :
-
+    
     # pathDatasetFile    = os.path.join(".","dataIndex","test_1.txt")
     # pathImageDirectory = os.path.join(".","database")
     # listImagePaths     = []
@@ -170,32 +196,16 @@ if __name__ == "__main__" :
     # pathDirData = '/home/memoming/study/CheXNet/database'
     pathDirData = '/srv/repo/users/memoming/CheXNet/database'
 
-    labelList   = [ 'Normal','TEST','Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 
-                    'Mass', 'Nodule', 'Pneumonia', 'Pneumothorax', 'Consolidation', 
-                    'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
-
-    pathList    = list()
-    pathList.append(os.path.join(pathDirData,"images_008/00016168_000.png")) # normal
-    pathList.append(os.path.join(".","test","testImg","00009285_000.png"))   # TEST
-    pathList.append(os.path.join(pathDirData,"images_005/00010808_002.png")) # Atelectasis
-    pathList.append(os.path.join(pathDirData,"images_004/00007551_016.png")) # Cardiomegaly
-    pathList.append(os.path.join(pathDirData,"images_008/00017943_000.png")) # Effusion
-    pathList.append(os.path.join(pathDirData,"images_010/00021742_000.png")) # Infiltration
-    pathList.append(os.path.join(pathDirData,"images_011/00026330_002.png")) # Mass
-    pathList.append(os.path.join(pathDirData,"images_007/00014178_009.png")) # Nodule
-    pathList.append(os.path.join(pathDirData,"images_001/00001021_000.png")) # Pneumonia
-    pathList.append(os.path.join(pathDirData,"images_008/00016587_004.png")) # Pneumothorax
-    pathList.append(os.path.join(pathDirData,"images_005/00010007_130.png")) # Consolidation
-    pathList.append(os.path.join(pathDirData,"images_008/00016184_042.png")) # Edema
-    pathList.append(os.path.join(pathDirData,"images_008/00016122_005.png")) # Emphysema
-    pathList.append(os.path.join(pathDirData,"images_002/00003675_001.png")) # Fibrosis
-    pathList.append(os.path.join(pathDirData,"images_007/00014232_003.png")) # Pleural_Thickening
-    pathList.append(os.path.join(pathDirData,"images_010/00021902_000.png")) # Hernia
+    caseNum = 4
+    labelList, imageList = getImageData(os.path.join("dataIndex","test_1.txt"))
 
     for i in range(len(labelList)) :
-        pathInputImage  = pathList[i]
-        pathOutputImage = os.path.join("test","heatmap_"+labelList[i]+".png")
-        heatmapGen.generate(pathInputImage, pathOutputImage, transCrop)
+        eachLabel   = labelList[i]
+        imgList     = random.sample(imageList[i],4)
+        for no,eachPath in enumerate(imgList) :
+            pathOutputImage = os.path.join("test","temp","heatmap_"+eachLabel+"_"+str(no)+".png")
+            eachPath = os.path.join(pathDirData,eachPath)
+            heatmapGen.generate(eachPath, pathOutputImage, transCrop)
     print("Done !")
 
 
