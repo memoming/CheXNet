@@ -39,7 +39,7 @@ In a previous study, we recognized that our model's Actication map is very wide.
 | P.T.          | 0             | 0              | 1            | 0         |
 | Hernia        | 0             | 0              | 0            | 1         |
 
-<br>Because the number of labels has decreased, we expect the AUROC value to be slightly higher. If so, we adjust apply another categorical approch. Based on the results, we plan to apply another disease-categorical training.
+<br>Because the number of labels has decreased, we expect the AUROC value to be slightly higher. Based on the results, we plan to apply another disease-categorical training.
 
 ----
 
