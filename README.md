@@ -4,17 +4,42 @@
 ----
 ### ToDo List
 
-05 - K-fold cross validation 적용<br/>
-06 - Categorical Training 적용<br/>
-07 - Other Network 적용<br/>
-08 - Transfer Learning 적용<br/>
-10 - Normal / Cardiomegaly / Lung / Pleural Categorical Training (for Localization) <br/>
+05 - Apply K-fold cross validation.<br/>
+06 - Apply Categorical Training<br/>
+07 - Apply Other Network<br/>
+08 - Apply Transfer Learning<br/>
+10 - Apply Normal / Cardiomegaly / Lung / Pleural Categorical Training (for Localization) <br/>
 
-~~01 - TestSet 모두 Heatmap Image 생성~~ (Done)<br/>
-~~02 - Preprocessing 에서 Resize하고 Crop 확인~~ (Done) <br/>
-~~03 - Normalizer 확인~~ (Done)<br/>
-~~04 - 3가지 Normalize 방법 마다 차이 확인~~ (Done)<br/>
-~~09 - Post Processing에서 Activation Map의 Threshold 변경~~ (Done)<br/>
+~~01 - Generate heat map images for all test sets~~ (Done)<br/>
+~~02 - Resize and crop check during preprocessing~~ (Done) <br/>
+~~03 - Check Normalizer~~ (Done)<br/>
+~~04 - Check the differences between the three normalization methods.~~ (Done)<br/>
+~~09 - Change Threshold of Activation Map in Post Processing~~ (Done)<br/>
+
+----
+### 11-DEC-2019
+#### <b>Apply Categorical Training</b><br>
+
+In a previous study, we recognized that our model's Actication map is very wide. This means that the localization of our model is not good. So this time we use categorical training. The label for this approach is divided into below. <br>
+
+| Pathology     | Lung          | Cardiomegaly   | Pleural      | Herina    |
+| ------------- |:-------------:|:--------------:|:------------:|:---------:|
+| Atelectasis   | 1             | 0              | 0            | 0         |
+| Cardiomegaly  | 0             | 1              | 0            | 0         |
+| Effusion      | 0             | 0              | 1            | 0         |
+| Infiltration  | 1             | 0              | 0            | 0         |
+| Mass          | 1             | 0              | 0            | 0         |
+| Nodule        | 1             | 0              | 0            | 0         |
+| Pneumonia     | 1             | 0              | 0            | 0         |
+| Pneumothorax  | 0             | 0              | 1            | 0         |
+| Consolidation | 1             | 0              | 0            | 0         |
+| Edema         | 1             | 0              | 0            | 0         |
+| Emphysema     | 1             | 0              | 0            | 0         |
+| Fibrosis      | 1             | 0              | 0            | 0         |
+| P.T.          | 0             | 0              | 1            | 0         |
+| Hernia        | 0             | 0              | 0            | 1         |
+
+<br>Because the number of labels has decreased, we expect the AUROC value to be slightly higher. If so, we adjust apply another categorical approch. Based on the results, we plan to apply another disease-categorical training.
 
 ----
 
