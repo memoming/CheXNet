@@ -58,13 +58,13 @@ class HeatmapGenerator ():
 
         #---- Initialize the image transform - resize + normalize
         # normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        normalize = transforms.Normalize([0.5, 0.5 ,0.5], [0.5, 0.5, 0.5])
-        transformList = []
-        transformList.append(transforms.Resize(transCrop))
-        transformList.append(transforms.ToTensor())
-        transformList.append(normalize)      
+        # normalize = transforms.Normalize([0.5, 0.5 ,0.5], [0.5, 0.5, 0.5])
+        # transformList = []
+        # transformList.append(transforms.Resize(transCrop))
+        # transformList.append(transforms.ToTensor())
+        # transformList.append(normalize)      
         
-        self.transformSequence = transforms.Compose(transformList)
+        # self.transformSequence = transforms.Compose(transformList)
     
     #--------------------------------------------------------------------------------
      
@@ -72,27 +72,28 @@ class HeatmapGenerator ():
         
         #---- Load image, transform, convert 
         imageData   = Image.open(pathImageFile).convert('RGB')
-        # pixData     = np.asarray(imageData)
+        pixData     = np.asarray(imageData)
 
-        # Rchan = pixData[:,:,0]  # Red color channel
-        # Gchan = pixData[:,:,1]  # Green color channel
-        # Bchan = pixData[:,:,2]  # Blue color channel
+        Rchan = pixData[:,:,0]  # Red color channel
+        Gchan = pixData[:,:,1]  # Green color channel
+        Bchan = pixData[:,:,2]  # Blue color channel
 
-        # Rchan_mean = Rchan.mean()
-        # Gchan_mean = Gchan.mean()
-        # Bchan_mean = Bchan.mean()
+        Rchan_mean = Rchan.mean()
+        Gchan_mean = Gchan.mean()
+        Bchan_mean = Bchan.mean()
 
-        # Rchan_sd = math.sqrt(Rchan.var())
-        # Gchan_sd = math.sqrt(Gchan.var())
-        # Bchan_sd = math.sqrt(Bchan.var())
+        Rchan_sd = math.sqrt(Rchan.var())
+        Gchan_sd = math.sqrt(Gchan.var())
+        Bchan_sd = math.sqrt(Bchan.var())
 
-        # normalize = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
-        # transformList = []
-        # transformList.append(transforms.RandomResizedCrop(224))
-        # transformList.append(transforms.RandomHorizontalFlip())
-        # transformList.append(transforms.ToTensor())
-        # transformList.append(normalize)      
-        # self.transformSequence = transforms.Compose(transformList)
+        normalize1 = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
+        normalize2 = transforms.Normalize([0.5, 0.5 ,0.5], [0.5, 0.5, 0.5])
+        transformList = []
+        transformList.append(transforms.Resize(224))
+        transformList.append(transforms.ToTensor())
+        transformList.append(normalize1)
+        transformList.append(normalize2)      
+        self.transformSequence = transforms.Compose(transformList)
 
 
         imageData = self.transformSequence(imageData)
@@ -185,16 +186,16 @@ if __name__ == "__main__" :
     nnArchitecture  = 'DENSE-NET-121'
     nnClassCount    = 14
     transCrop       = 224
-    pathModel       = os.path.join(".","models","m-05122019-142304.pth.tar")
-    # pathModel       = os.path.join(".","models","papers.pth.tar")
+    # pathModel       = os.path.join(".","models","m-05122019-142304.pth.tar")
+    pathModel       = "m-10122019-182842.pth.tar"
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 
     # pathInputImage = os.path.join("test","00009285_000.png")
     # pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
 
-    # pathDirData = '/home/memoming/study/CheXNet/database'
-    pathDirData = '/srv/repo/users/memoming/CheXNet/database'
+    pathDirData = '/home/memoming/study/CheXNet/database'
+    # pathDirData = '/srv/repo/users/memoming/CheXNet/database'
 
     caseNum = 4
     labelList, imageList = getImageData(os.path.join("dataIndex","test_1.txt"))
