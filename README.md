@@ -17,6 +17,34 @@
 ~~09 - Change Threshold of Activation Map in Post Processing~~ (Done)<br/>
 
 ----
+### 12-DEC-2019
+#### Categorical Training Analysis
+
+In training, the loss value decreased very slowly compared to the previous training.
+We thought it was harder to find special features because multiple images were labeled in one image and the number of categories was reduced.
+The results of running the test data with the model obtained from the categorical training are as below. <br>
+
+|               |     AUROC     | #Labels  |
+| ------------- |:-------------:|:--------:|
+| Lung          | 0.746         | 29,300   |
+| Cardiomegaly  | <b>0.914      | <b>1,950 |
+| Pleural       | 0.852         | 13,805   |
+| Herina        | <b>0.926      | <b>144   |
+| <b>Total      | <b>0.860      |          |
+
+<br> There are a few things to think about in results. The AUROC value means that a good model has been created that categorizes four categories well. However, if you look at the categories Herina and Cardiomegaly, which have the best results, they have the fewest datasets. In general, the number of data and the result are inversely proportional. The results were confusing. So we decided to train the model again, this time We added 'Normal' to the label, creating a total of five categories.<br>
+
+|               | #Labels   |
+| ------------- |:---------:|
+| Lung          | 29,300    |
+| Cardiomegaly  | 1,950     |
+| Pleural       | 13,805    |
+| Herina        | 144       |
+| <b>Normal     | <b>42,405 |
+
+<br>We know that the number of data is unbalanced. Based on the results of this training, we plan to find improvements.
+
+----
 ### 11-DEC-2019
 #### <b>Apply Categorical Training</b><br>
 
