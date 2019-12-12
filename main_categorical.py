@@ -99,7 +99,7 @@ class DatasetGenerator (Dataset):
         # transformList.append(transforms.Resize(256))
         # transformList.append(transforms.TenCrop(224))
         # transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
-        # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
+        # # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
         # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
         # transformSequence=transforms.Compose(transformList)
 
@@ -242,8 +242,10 @@ def epochVal (model, dataLoader, optimizer, scheduler, epochMax, classCount, los
 def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, transResize, transCrop, launchTimeStamp):   
         
         print("RUN TEST =====")
-        CLASS_NAMES = [ 'Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 'Mass', 'Nodule', 'Pneumonia',
-                'Pneumothorax', 'Consolidation', 'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
+        # CLASS_NAMES = [ 'Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 'Mass', 'Nodule', 'Pneumonia',
+                # 'Pneumothorax', 'Consolidation', 'Edema', 'Emphysema', 'Fibrosis', 'Pleural_Thickening', 'Hernia']
+
+        CLASS_NAMES = ['Lung', 'Cardiomegaly', 'Pleural', 'Hernia', 'Normal']
         
         cudnn.benchmark = True
         
@@ -274,7 +276,8 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
         ########################################################
 
         #-------------------- SETTINGS: DATA TRANSFORMS, TEN CROPS
-        normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        # normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        normalize = transforms.Normalize([0.5,0.5,0.5], [0.5,0.5,0.5])
         
         #-------------------- SETTINGS: DATASET BUILDERS
         transformList = []
@@ -355,23 +358,21 @@ if __name__ == "__main__" :
     # on imagenet, number of classes
     nnArchitecture  = DENSENET121
     nnIsTrained     = True
-    nnClassCount    = 4
+    nnClassCount    = 5
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 512 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trBatchSize     = 256 #origin : train&test : 16 / my : train : 256 / test : 16
     trMaxEpoch      = 100 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
     imgtransResize  = 256
     imgtransCrop    = 224
         
-    pathModel = 'model_categorical_-1_0_' + timestampLaunch + '.pth.tar'
-
+    # pathModel = 'model_categorical_-1_0_' + timestampLaunch + '.pth.tar'
     print ('Training NN architecture = ', nnArchitecture)
     train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
-
-    # pathModel = "m-10122019-182842.pth.tar"
+    # pathModel = "m-11122019-192945.pth.tar"
     # pathModel = os.path.join("models","m-27112019-174526.pth.tar")
     # test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
