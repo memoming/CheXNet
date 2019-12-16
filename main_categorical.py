@@ -374,8 +374,8 @@ if __name__ == "__main__" :
     # print ('Training NN architecture = ', nnArchitecture)
     # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
-    pathModel = "m-12122019-143952.pth.tar"
-    # pathModel = os.path.join("models","m-27112019-174526.pth.tar")
+    #pathModel = "m-12122019-143952.pth.tar"
+    pathModel = os.path.join("models","categorical_4_-1to1Norm.pth.tar")
     test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
 # ========================================== #
