@@ -85,23 +85,23 @@ class DatasetGenerator (Dataset):
         normalize2 = transforms.Normalize([0.5,0.5,0.5], [0.5,0.5,0.5])
 
         # train
-        transformList = []
-        transformList.append(transforms.RandomResizedCrop(224))
-        transformList.append(transforms.RandomHorizontalFlip())
-        transformList.append(transforms.ToTensor())
-        # transformList.append(normalize1)
-        transformList.append(normalize2)
-        transformSequence=transforms.Compose(transformList)
+        # transformList = []
+        # transformList.append(transforms.RandomResizedCrop(224))
+        # transformList.append(transforms.RandomHorizontalFlip())
+        # transformList.append(transforms.ToTensor())
+        # # transformList.append(normalize1)
+        # transformList.append(normalize2)
+        # transformSequence=transforms.Compose(transformList)
 
 
         # test
-        # transformList = []
-        # transformList.append(transforms.Resize(256))
-        # transformList.append(transforms.TenCrop(224))
-        # transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
-        # # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
-        # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
-        # transformSequence=transforms.Compose(transformList)
+        transformList = []
+        transformList.append(transforms.Resize(256))
+        transformList.append(transforms.TenCrop(224))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
+        # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
+        transformSequence=transforms.Compose(transformList)
 
 
 
@@ -308,6 +308,8 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
             
             out = model(varInput)
             outMean = out.view(bs, n_crops, -1).mean(1)
+
+            #print("out :",out)
             
             outPRED = torch.cat((outPRED, outMean.data), 0)
             print("\r","===> ",i,"/",len(dataLoaderTest),end="")
@@ -361,7 +363,7 @@ if __name__ == "__main__" :
     nnClassCount    = 5
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 256 #origin : train&test : 16 / my : train : 256 / test : 16
+    trBatchSize     = 16 #origin : train&test : 16 / my : train : 256 / test : 16
     trMaxEpoch      = 100 #100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
@@ -369,11 +371,11 @@ if __name__ == "__main__" :
     imgtransCrop    = 224
         
     # pathModel = 'model_categorical_-1_0_' + timestampLaunch + '.pth.tar'
-    print ('Training NN architecture = ', nnArchitecture)
-    train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
+    # print ('Training NN architecture = ', nnArchitecture)
+    # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
-    # pathModel = "m-11122019-192945.pth.tar"
+    pathModel = "m-12122019-143952.pth.tar"
     # pathModel = os.path.join("models","m-27112019-174526.pth.tar")
-    # test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
+    test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
 # ========================================== #

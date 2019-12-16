@@ -72,26 +72,26 @@ class HeatmapGenerator ():
         
         #---- Load image, transform, convert 
         imageData   = Image.open(pathImageFile).convert('RGB')
-        pixData     = np.asarray(imageData)
+        # pixData     = np.asarray(imageData)
 
-        Rchan = pixData[:,:,0]  # Red color channel
-        Gchan = pixData[:,:,1]  # Green color channel
-        Bchan = pixData[:,:,2]  # Blue color channel
+        # Rchan = pixData[:,:,0]  # Red color channel
+        # Gchan = pixData[:,:,1]  # Green color channel
+        # Bchan = pixData[:,:,2]  # Blue color channel
 
-        Rchan_mean = Rchan.mean()
-        Gchan_mean = Gchan.mean()
-        Bchan_mean = Bchan.mean()
+        # Rchan_mean = Rchan.mean()
+        # Gchan_mean = Gchan.mean()
+        # Bchan_mean = Bchan.mean()
 
-        Rchan_sd = math.sqrt(Rchan.var())
-        Gchan_sd = math.sqrt(Gchan.var())
-        Bchan_sd = math.sqrt(Bchan.var())
+        # Rchan_sd = math.sqrt(Rchan.var())
+        # Gchan_sd = math.sqrt(Gchan.var())
+        # Bchan_sd = math.sqrt(Bchan.var())
 
-        normalize1 = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
+        # normalize1 = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
         normalize2 = transforms.Normalize([0.5, 0.5 ,0.5], [0.5, 0.5, 0.5])
         transformList = []
         transformList.append(transforms.Resize(224))
         transformList.append(transforms.ToTensor())
-        transformList.append(normalize1)
+        # transformList.append(normalize1)
         transformList.append(normalize2)      
         self.transformSequence = transforms.Compose(transformList)
 
@@ -184,10 +184,10 @@ if __name__ == "__main__" :
     # fileDescriptor.close()
 
     nnArchitecture  = 'DENSE-NET-121'
-    nnClassCount    = 14
+    nnClassCount    = 5
     transCrop       = 224
     # pathModel       = os.path.join(".","models","m-05122019-142304.pth.tar")
-    pathModel       = "m-10122019-182842.pth.tar"
+    pathModel       = "m-12122019-143952.pth.tar"
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 

@@ -17,7 +17,6 @@ from torch.utils.data import DataLoader
 
 import torchvision
 from torchvision import transforms 
-
 from sklearn.metrics.ranking import roc_auc_score
 import re
 
@@ -306,6 +305,7 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
             
             out = model(varInput)
             outMean = out.view(bs, n_crops, -1).mean(1)
+            print(out)
             
             outPRED = torch.cat((outPRED, outMean.data), 0)
             print("\r","===> ",i,"/",len(dataLoaderTest),end="")
