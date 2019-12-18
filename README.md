@@ -16,6 +16,21 @@
 ~~04 - Check the differences between the three normalization methods.~~ (Done)<br/>
 ~~09 - Change Threshold of Activation Map in Post Processing~~ (Done)<br/>
 
+
+----
+### 16-DEC-2019
+#### Categorical Training Analysis with Normal Label.
+
+|               |     AUROC     | #Labels   |
+| ------------- |:-------------:|:---------:|
+| Lung          | 0.746         | 29,300    |
+| Cardiomegaly  | <b>0.914      | <b>1,950  |
+| Pleural       | 0.851         | 13,805    |
+| Herina        | <b>0.948      | <b>144    |
+| Normal        | <b>0.787      | <b>42,405 |
+| <b>Total      | <b>0.849      |           |
+
+
 ----
 ### 12-DEC-2019
 #### Categorical Training Analysis

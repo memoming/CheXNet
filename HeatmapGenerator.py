@@ -19,6 +19,8 @@ from DenseNet import DenseNet121
 
 
 from sklearn import preprocessing
+from torchsummary import summary
+import torch.nn.functional as F
 
 #-------------------------------------------------------------------------------- 
 #---- Class to generate heatmaps (CAM)
@@ -52,6 +54,8 @@ class HeatmapGenerator ():
 
         self.model = model.module.densenet121.features
         self.model.eval()
+
+        print(summary(model, (3, 224, 224)))
         
         #---- Initialize the weights
         self.weights = list(self.model.parameters())[-2]
@@ -98,11 +102,20 @@ class HeatmapGenerator ():
 
         imageData = self.transformSequence(imageData)
         imageData = imageData.unsqueeze_(0)
-        
+
         input = torch.autograd.Variable(imageData)
-        
         self.model.cuda()
         output = self.model(input.cuda())
+
+        _, preds = torch.max(output, 1)
+        print(preds)
+        
+        # outMean = output.view(224, 224, -1).mean(1)
+        # print(outMean.data)
+        # print(outMean)
+        # outPRED = torch.cat((outPRED, outMean.data), 0)
+
+        
         
         #---- Generate heatmap
         heatmap = None
@@ -186,27 +199,29 @@ if __name__ == "__main__" :
     nnArchitecture  = 'DENSE-NET-121'
     nnClassCount    = 5
     transCrop       = 224
-    # pathModel       = os.path.join(".","models","m-05122019-142304.pth.tar")
-    pathModel       = "m-12122019-143952.pth.tar"
+    pathModel       = os.path.join(".","models","categorical_4_-1to1Norm.pth.tar")
+    # pathModel       = "m-12122019-143952.pth.tar"
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 
     # pathInputImage = os.path.join("test","00009285_000.png")
     # pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
 
-    pathDirData = '/home/memoming/study/CheXNet/database'
-    # pathDirData = '/srv/repo/users/memoming/CheXNet/database'
+    # pathDirData = '/home/memoming/study/CheXNet/database'
+    pathDirData = '/srv/repo/users/memoming/CheXNet/database'
 
     caseNum = 4
     labelList, imageList = getImageData(os.path.join("dataIndex","test_1.txt"))
 
-    for i in range(len(labelList)) :
-        eachLabel   = labelList[i]
-        imgList     = random.sample(imageList[i],4)
-        for no,eachPath in enumerate(imgList) :
-            pathOutputImage = os.path.join("test","temp","heatmap_"+eachLabel+"_"+str(no)+".png")
-            eachPath = os.path.join(pathDirData,eachPath)
-            heatmapGen.generate(eachPath, pathOutputImage, transCrop)
+    with open(os.path.join("test","temp","index.txt"),"w") as indexStream :
+        for i in range(len(labelList)) :
+            eachLabel   = labelList[i]
+            imgList     = random.sample(imageList[i],4)
+            for no,eachPath in enumerate(imgList) :
+                indexStream.write("heatmap_"+eachLabel+"_"+str(no)+".png"+"\t origin : "+eachPath+"\n")
+                pathOutputImage = os.path.join("test","temp","heatmap_"+eachLabel+"_"+str(no)+".png")
+                eachPath = os.path.join(pathDirData,eachPath)
+                heatmapGen.generate(eachPath, pathOutputImage, transCrop)
     print("Done !")
 
 
