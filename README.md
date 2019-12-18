@@ -8,13 +8,14 @@
 06 - Apply Categorical Training<br/>
 07 - Apply Other Network<br/>
 08 - Apply Transfer Learning<br/>
-10 - Apply Normal / Cardiomegaly / Lung / Pleural Categorical Training (for Localization) <br/>
+
 
 ~~01 - Generate heat map images for all test sets~~ (Done)<br/>
 ~~02 - Resize and crop check during preprocessing~~ (Done) <br/>
 ~~03 - Check Normalizer~~ (Done)<br/>
 ~~04 - Check the differences between the three normalization methods.~~ (Done)<br/>
 ~~09 - Change Threshold of Activation Map in Post Processing~~ (Done)<br/>
+~~10 - Apply Normal / Cardiomegaly / Lung / Pleural Categorical Training (for Localization)~~ (Done)<br/>
 
 ----
 
