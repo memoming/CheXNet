@@ -16,10 +16,41 @@
 ~~04 - Check the differences between the three normalization methods.~~ (Done)<br/>
 ~~09 - Change Threshold of Activation Map in Post Processing~~ (Done)<br/>
 
+----
+
+### 18-DEC-2019
+#### Analysis of two heatmaps.
+
+There are two heatmaps created by models made from categorical training. Both heatmap are about Cardiomegaly, but the parts shown are different. It was confusing because one model drew a different heatmap for the same disease. At first, we thought our model was a badly trained model. However after repeated training, we found the same result. If the model was well-trained, We thought about how to interpret the results.
+
+<br>
+<table>
+  <thead></thead>
+<tbody>
+    <tr>
+        <th align="center">Cardiomegaly - 1</th>
+        <th align="center">Cardiomegaly - 2</th>
+    </tr>
+    <tr>
+        <td align="center">
+        <img src="web/img/18-DEC-2019/heatmap_Cardiomegaly_2.png" width="224px"/>
+        </td>
+        <td align="center">
+        <img src="web/img/18-DEC-2019/heatmap_Cardiomegaly_3.png" width="224px"/>
+        </td> 
+    </tr>
+</tbody>
+</table> 
+<br>
+
+In conclusion We recognise that the two heatmaps show the same thing in different ways. Cardiomegaly is determined by comparing the size of the heart and the distance between both lungs in x-ray. The first heatmap shows the length of the left and right lungs being abnormal compared to the size of the heart. The second heatmap is the same judgment based on the heart area. <br><br>
+In order to conduct more tests on the model, it plans to preprocess and insert other data sets. We will apply transfer learning by training only each disease and normal data to increase the accuracy of the model.
 
 ----
 ### 16-DEC-2019
 #### Categorical Training Analysis with Normal Label.
+
+The training shows the same results as before. Herina and Cardiomegaly with a small number of data show good AUROC.
 
 |               |     AUROC     | #Labels   |
 | ------------- |:-------------:|:---------:|
@@ -30,6 +61,7 @@
 | Normal        | <b>0.787      | <b>42,405 |
 | <b>Total      | <b>0.849      |           |
 
+Lung seems to have low AUROC because various diseases are grouped into one category. There is an imbalance in the number of data, but the results are consistent. Even before applying category training, Cardiomegaly and Herina's AUROC was good and We think it's a more distinctive group than other categories.
 
 ----
 ### 12-DEC-2019
