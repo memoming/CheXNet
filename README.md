@@ -850,13 +850,13 @@ In a previous study, we recognized that our model's Actication map is very wide.
 <br>
 
 * Next Training ... Done
-* Normalize -1 ~ 1 적용.
+* Normalize -1 ~ 1 used.
 * Training :: Batch 256, Epoch 100
 ----
 ### 04-DEC-2019
-* Image별 Normalize 적용 (0~1) -> Next Normalize (-1~1)
-* Training :: Batch 192, Epoch 100, 33h 소요.
-* 기존 Constant Value에서 각각의 연산이 추가되어 트레이닝 시간이 길어짐.
+* Normalize ( 0 ~ 1 ) -> Normalize ( -1 ~ 1 )
+* Training :: Batch 192, Epoch 100, 33h
+* Training time has been extened due to the addition of calculations, not constant values.
 * Activation Map with Threshold
 * Threshold 0.5 & 0.8 ( 50% & 80% )
 <table>
@@ -885,8 +885,8 @@ In a previous study, we recognized that our model's Actication map is very wide.
 ----
 
 ### 28-NOV-2019
- * Training :: Batch 128, Epoch 150으로 16h 소요.
- * ImageNet에서의 Pretraining 된 Network를 가져와서 적용.
+ * Training :: Batch 128, Epoch 150, 16 hours
+ * The initial weights used with pre-trained weights from ImageNet.
 
 <table>
 <thead>
