@@ -197,18 +197,18 @@ if __name__ == "__main__" :
     # fileDescriptor.close()
 
     nnArchitecture  = 'DENSE-NET-121'
-    nnClassCount    = 5
+    nnClassCount    = 14
     transCrop       = 224
     pathModel       = os.path.join(".","models","categorical_4_-1to1Norm.pth.tar")
-    # pathModel       = "m-12122019-143952.pth.tar"
+    pathModel       = "m-21122019-221338.pth.tar"
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 
     # pathInputImage = os.path.join("test","00009285_000.png")
     # pathOutputImage = os.path.join("test","heatmap_threshold_0.8.png")
 
-    # pathDirData = '/home/memoming/study/CheXNet/database'
-    pathDirData = '/srv/repo/users/memoming/CheXNet/database'
+    pathDirData = '/home/memoming/study/CheXNet/database'
+    # pathDirData = '/srv/repo/users/memoming/CheXNet/database'
 
     caseNum = 4
     labelList, imageList = getImageData(os.path.join("dataIndex","test_1.txt"))
