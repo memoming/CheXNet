@@ -19,6 +19,28 @@
 
 ----
 
+### 23-DEC-2019
+
+In the paper referred to, they selected one result output from the deep learning model. 
+But the problem we have is in several labels. Since there are several diseases in one picture, We need to create a model with multiple outputs. To create a model with multiple outputs, we applied softmax instead of sigmoid in the last layer. The test result for the trained model is AUROC 0.767. We think the result is not good because the model has to infer multiple labels. This is a more difficult problem. <br>
+
+Here are some questions to solve.
+- In category training, the final results cannot exceed the accuracy of the first model, so consider how the first layer should be constructed.
+- Consider which of the several probability values should be selected as the correct answer.
+- We need to think about the problem of imbalance in datasets and how we should communicate our trained results with the MD.
+
+
+
+
+
+
+
+
+
+
+
+----
+
 ### 18-DEC-2019
 #### Analysis of two heatmaps.
 
