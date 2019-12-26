@@ -67,42 +67,42 @@ class DatasetGenerator (Dataset):
         imagePath   = self.listImagePaths[index]
         imageData   = Image.open(imagePath).convert('RGB')
 
-        pixData     = np.asarray(imageData)
+        # pixData     = np.asarray(imageData)
 
-        Rchan = pixData[:,:,0]  # Red color channel
-        Gchan = pixData[:,:,1]  # Green color channel
-        Bchan = pixData[:,:,2]  # Blue color channel
+        # Rchan = pixData[:,:,0]  # Red color channel
+        # Gchan = pixData[:,:,1]  # Green color channel
+        # Bchan = pixData[:,:,2]  # Blue color channel
 
-        Rchan_mean = Rchan.mean()
-        Gchan_mean = Gchan.mean()
-        Bchan_mean = Bchan.mean()
+        # Rchan_mean = Rchan.mean()
+        # Gchan_mean = Gchan.mean()
+        # Bchan_mean = Bchan.mean()
 
-        Rchan_sd = math.sqrt(Rchan.var())
-        Gchan_sd = math.sqrt(Gchan.var())
-        Bchan_sd = math.sqrt(Bchan.var())
+        # Rchan_sd = math.sqrt(Rchan.var())
+        # Gchan_sd = math.sqrt(Gchan.var())
+        # Bchan_sd = math.sqrt(Bchan.var())
 
-        normalize1 = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
+        # normalize1 = transforms.Normalize([Rchan_mean,Gchan_mean,Bchan_mean], [Rchan_sd,Gchan_sd,Bchan_sd])
 
         normalize2 = transforms.Normalize([0.5,0.5,0.5], [0.5,0.5,0.5])
 
         # train
-        # transformList = []
-        # transformList.append(transforms.RandomResizedCrop(224))
-        # transformList.append(transforms.RandomHorizontalFlip())
-        # transformList.append(transforms.ToTensor())
+        transformList = []
+        transformList.append(transforms.RandomResizedCrop(224))
+        transformList.append(transforms.RandomHorizontalFlip())
+        transformList.append(transforms.ToTensor())
         # transformList.append(normalize1)
-        # transformList.append(normalize2)       
-        # transformSequence=transforms.Compose(transformList)
+        transformList.append(normalize2)       
+        transformSequence=transforms.Compose(transformList)
 
 
         # test
-        transformList = []
-        transformList.append(transforms.Resize(256))
-        transformList.append(transforms.TenCrop(224))
-        transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
-        transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
-        transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
-        transformSequence=transforms.Compose(transformList)
+        # transformList = []
+        # transformList.append(transforms.Resize(256))
+        # transformList.append(transforms.TenCrop(224))
+        # transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
+        # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
+        # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
+        # transformSequence=transforms.Compose(transformList)
 
 
 
@@ -154,7 +154,8 @@ def train ( pathDirData, pathFileTrain, pathFileVal, nnArchitecture, \
     print("OPTIMIZER & SCHEDULER ... set")
             
     #-------------------- SETTINGS: LOSS
-    loss = torch.nn.BCELoss(size_average = True)
+    # loss = torch.nn.BCELoss(size_average = True)
+    loss = torch.nn.BCELoss(reduction="mean")
     print("LOSS FUNC ... set")
     
     #---- Load checkpoint 
@@ -358,8 +359,8 @@ if __name__ == "__main__" :
     nnClassCount    = 14
 
     # Training settings: batch size, maximum number of epochs
-    trBatchSize     = 32 #origin : train&test : 16 / my : train : 256 -> 128 / test : 32
-    trMaxEpoch      = 100 #100
+    trBatchSize     = 16  # origin : train&test : 16 / my : train : 256 -> 128 / test : 32
+    trMaxEpoch      = 100 # 100
 
     # Parameters related to image transforms: size of the down-scaled image, cropped image
     imgtransResize  = 256
@@ -368,12 +369,12 @@ if __name__ == "__main__" :
     pathModel = 'model_' + timestampLaunch + '.pth.tar'
 
 
-    # print ('Training NN architecture = ', nnArchitecture)
-    # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
+    print ('Training NN architecture = ', nnArchitecture)
+    train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
 
-    pathModel = "m-10122019-182842.pth.tar"
+    # pathModel = "m-10122019-182842.pth.tar"
     # pathModel = os.path.join("models","m-27112019-174526.pth.tar")
-    test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
+    # test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
 # ========================================== #
