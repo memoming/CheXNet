@@ -107,8 +107,8 @@ class HeatmapGenerator ():
         self.model.cuda()
         output = self.model(input.cuda())
 
-        _, preds = torch.max(output, 1)
-        print(preds)
+        # _, preds = torch.max(output, 1)
+        print(output.data.max(1, keepdim=False)[1])
         
         # outMean = output.view(224, 224, -1).mean(1)
         # print(outMean.data)
@@ -199,8 +199,8 @@ if __name__ == "__main__" :
     nnArchitecture  = 'DENSE-NET-121'
     nnClassCount    = 14
     transCrop       = 224
-    pathModel       = os.path.join(".","models","categorical_4_-1to1Norm.pth.tar")
-    pathModel       = "m-21122019-221338.pth.tar"
+    # pathModel       = os.path.join(".","models","categorical_4_-1to1Norm.pth.tar")
+    pathModel       = "m-26122019-180457.pth.tar"
     heatmapGen      = HeatmapGenerator(pathModel, nnArchitecture, nnClassCount, transCrop)
     print("Generator Loaded.")
 

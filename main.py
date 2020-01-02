@@ -86,23 +86,23 @@ class DatasetGenerator (Dataset):
         normalize2 = transforms.Normalize([0.5,0.5,0.5], [0.5,0.5,0.5])
 
         # train
-        transformList = []
-        transformList.append(transforms.RandomResizedCrop(224))
-        transformList.append(transforms.RandomHorizontalFlip())
-        transformList.append(transforms.ToTensor())
-        # transformList.append(normalize1)
-        transformList.append(normalize2)       
-        transformSequence=transforms.Compose(transformList)
+        # transformList = []
+        # transformList.append(transforms.RandomResizedCrop(224))
+        # transformList.append(transforms.RandomHorizontalFlip())
+        # transformList.append(transforms.ToTensor())
+        # # transformList.append(normalize1)
+        # transformList.append(normalize2)       
+        # transformSequence=transforms.Compose(transformList)
 
 
         # test
-        # transformList = []
-        # transformList.append(transforms.Resize(256))
-        # transformList.append(transforms.TenCrop(224))
-        # transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
+        transformList = []
+        transformList.append(transforms.Resize(256))
+        transformList.append(transforms.TenCrop(224))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
         # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize1(crop) for crop in crops])))
-        # transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
-        # transformSequence=transforms.Compose(transformList)
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize2(crop) for crop in crops])))
+        transformSequence=transforms.Compose(transformList)
 
 
 
@@ -305,7 +305,7 @@ def test (pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nn
             
             out = model(varInput)
             outMean = out.view(bs, n_crops, -1).mean(1)
-            print(out)
+            # print(out.data.max(1, keepdim=True)[1])
             
             outPRED = torch.cat((outPRED, outMean.data), 0)
             print("\r","===> ",i,"/",len(dataLoaderTest),end="")
@@ -369,12 +369,12 @@ if __name__ == "__main__" :
     pathModel = 'model_' + timestampLaunch + '.pth.tar'
 
 
-    print ('Training NN architecture = ', nnArchitecture)
-    train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
+    # print ('Training NN architecture = ', nnArchitecture)
+    # train(pathDirData, pathFileTrain, pathFileVal, nnArchitecture, nnIsTrained, nnClassCount, trBatchSize, trMaxEpoch, imgtransResize, imgtransCrop, timestampLaunch, None)
 
 
-    # pathModel = "m-10122019-182842.pth.tar"
+    pathModel = "m-26122019-180457.pth.tar"
     # pathModel = os.path.join("models","m-27112019-174526.pth.tar")
-    # test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
+    test(pathDirData, pathFileTest, pathModel, nnArchitecture, nnClassCount, nnIsTrained, trBatchSize, imgtransResize, imgtransCrop, timestampLaunch)
 
 # ========================================== #
